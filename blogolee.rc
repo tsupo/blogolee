@@ -1,0 +1,688 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 日本語 resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 17, 1\r\n"
+    "#pragma code_page(932)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\blogolee.rc2""  // Microsoft Visual C++ 以外のツールで編集されたリソース\r\n"
+    "#include ""l.jpn\\afxres.rc""          // 標準のコンポーネント\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\blogolee.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 197, 65
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "BloGolEe のバージョン情報"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "BloGolEe Version 1.12 β",IDC_VERSION,40,10,90,8,
+                    SS_NOPREFIX
+    LTEXT           "Copyright (C) 2007, 2008, 2009 tsupo",IDC_STATIC,40,25,
+                    119,8
+    DEFPUSHBUTTON   "OK",IDOK,140,7,50,14,WS_GROUP
+    LTEXT           "http://watcher.moe-nifty.com/",IDC_WEB_URL,45,37,90,8,
+                    SS_NOTIFY
+    LTEXT           "mailto: tsupo@na.rim.or.jp",IDC_MAIL_ADDR,44,47,73,8,
+                    SS_NOTIFY
+END
+
+IDD_BLOGOLEE_DIALOG DIALOGEX 0, 0, 403, 469
+STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "BloGolEe"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    GROUPBOX        "記事",IDC_STATIC,7,7,389,254
+    LTEXT           "題名",IDC_STATIC,15,21,15,8
+    EDITTEXT        IDC_EDIT_ARTICLE_TITLE,15,32,126,15,ES_AUTOHSCROLL
+    LTEXT           "キーワード",IDC_STATIC,151,21,32,8
+    EDITTEXT        IDC_EDIT_ARTICLE_KEYWORD,151,32,126,15,ES_AUTOHSCROLL
+    LTEXT           "概要",IDC_STATIC,15,54,15,8
+    EDITTEXT        IDC_EDIT_ARTICLE_SUMMARY,15,65,262,15,ES_AUTOHSCROLL
+    LTEXT           "本文",IDC_STATIC,15,87,15,8
+    EDITTEXT        IDC_EDIT_ARTICLE,15,98,126,57,ES_MULTILINE | 
+                    ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL
+    LTEXT           "追記",IDC_STATIC,151,87,15,8
+    EDITTEXT        IDC_EDIT_ARTICLE_EXTENDED,151,98,126,57,ES_MULTILINE | 
+                    ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL
+    GROUPBOX        "はてなダイアリーキーワード",IDC_STATIC,289,21,98,24,
+                    WS_GROUP
+    CONTROL         "使う",IDC_RADIO_KEYWORD_ON,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,302,32,27,10
+    CONTROL         "使わない",IDC_RADIO_KEYWORD_OFF,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP,338,32,42,10
+    GROUPBOX        "おすすめ",IDC_STATIC_RECOMENDED,289,49,98,79,BS_NOTIFY | 
+                    WS_GROUP
+    CONTROL         "使う",IDC_RADIO_SIMILARITY_ON,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP,302,60,27,10
+    CONTROL         "使わない",IDC_RADIO_SIMILARITY_OFF,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP,338,60,42,10
+    LTEXT           "AmazonアソシエイトID",IDC_STATIC,293,73,65,8,NOT 
+                    WS_GROUP
+    EDITTEXT        IDC_EDIT_ASSOCIATE_ID,293,83,89,13,ES_AUTOHSCROLL
+    LTEXT           "楽天アフィリエイトID",IDC_STATIC,293,99,59,8,NOT 
+                    WS_GROUP
+    EDITTEXT        IDC_EDIT_RAKUTEN_ID,293,109,89,13,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "投稿",IDOK,296,137,38,25,BS_MULTILINE
+    PUSHBUTTON      "終了",IDCANCEL,342,137,38,25
+    GROUPBOX        "ホットペッパー グルメサーチ",IDC_STATIC,12,166,378,35
+    COMBOBOX        IDC_COMBO_FOODCD,20,180,102,114,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_FOOD_KEYWORD,128,180,123,13,ES_AUTOHSCROLL
+    PUSHBUTTON      "検索",IDC_BUTTON_FOOD_SEARCH,258,177,36,18,WS_GROUP
+    LTEXT           "Powered by",IDC_STATIC,300,189,35,8
+    LTEXT           "ホットペッパー.jp",IDC_WEB_HOTPEPPER,337,189,48,8,
+                    SS_NOTIFY
+    GROUPBOX        "じゃらん 宿・温泉サーチ",IDC_STATIC,12,205,378,51
+    COMBOBOX        IDC_COMBO_AREA_LIST,20,218,40,123,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO_AREA_LIST2,66,218,245,123,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO_HOTEL_TYPE,20,236,86,80,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "じゃらん Web サービス",IDC_WEB_JALAN,114,239,67,8,
+                    SS_NOTIFY
+    PUSHBUTTON      "アフィリエイトリンク生成",IDC_BUTTON_JALAN_LINK,185,234,
+                    86,18
+    PUSHBUTTON      "検索",IDC_BUTTON_HOTEL_SEARCH,275,234,36,18
+    LTEXT           "SID",IDC_STATIC,326,220,11,8
+    EDITTEXT        IDC_EDIT_JALAN_SID,340,218,44,13,ES_AUTOHSCROLL
+    LTEXT           "PID",IDC_STATIC,326,239,11,8
+    EDITTEXT        IDC_EDIT_JALAN_PID,340,237,44,13,ES_AUTOHSCROLL
+    GROUPBOX        "blog 情報",IDC_STATIC,7,267,389,173
+    LTEXT           "blog 名",IDC_STATIC,15,303,22,8
+    EDITTEXT        IDC_EDIT_BLOG_NAME,15,313,242,13,ES_AUTOHSCROLL
+    LTEXT           "blog URL",IDC_STATIC,15,329,28,8
+    EDITTEXT        IDC_EDIT_BLOG_URL,15,339,242,13,ES_AUTOHSCROLL
+    LTEXT           "blog の管理画面にログインするときのユーザ名、または  ID",
+                    IDC_STATIC,15,355,104,16
+    EDITTEXT        IDC_EDIT_BLOG_USERNAME,15,373,116,13,ES_AUTOHSCROLL
+    LTEXT           "blog の管理画面にログインするときのパスワード",
+                    IDC_STATIC,141,355,111,16
+    EDITTEXT        IDC_EDIT_BLOG_PASSWORD,141,373,116,13,ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    LTEXT           "blog ID",IDC_STATIC,141,389,22,8
+    EDITTEXT        IDC_EDIT_BLOG_ID,141,399,116,13,ES_AUTOHSCROLL
+    LTEXT           "エンドポイントURL",IDC_STATIC,15,411,52,8
+    EDITTEXT        IDC_EDIT_ENDPOINT_URL,15,421,242,13,ES_AUTOHSCROLL
+    LTEXT           "blog の種類",IDC_STATIC,15,277,36,8
+    COMBOBOX        IDC_COMBO_BLOGKIND,15,287,116,106,CBS_DROPDOWN | 
+                    CBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "blog 切替",IDC_BUTTON_SWITCH_BLOG,141,284,40,17
+    PUSHBUTTON      "blog を見る",IDC_BUTTON_BROWSE_BLOG,188,284,40,17
+    PUSHBUTTON      "小",IDC_BUTTON_SMALL,59,447,13,13
+    PUSHBUTTON      "proxy設定",IDC_BUTTON_PROXY,14,447,40,13
+    LTEXT           "BloGolEe  Ver 1.12 β",IDC_VERSION,237,451,78,8
+    LTEXT           "Presented by tsupo",IDC_STATIC,330,451,58,8
+    LTEXT           "投稿する記事のカテゴリ",IDC_STATIC,269,279,71,8
+    LISTBOX         IDC_LIST_CATEGORY,269,289,119,125,LBS_NOINTEGRALHEIGHT | 
+                    LBS_WANTKEYBOARDINPUT | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    PUSHBUTTON      "カテゴリ一覧取得",IDC_BUTTON_GET_CATEGORIES,323,420,65,
+                    17,WS_GROUP
+END
+
+IDD_ADD_BLOGINFO_DIALOG DIALOG DISCARDABLE  0, 0, 363, 169
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "blog 追加・登録"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    GROUPBOX        "基本情報",IDC_STATIC,7,7,189,131
+    LTEXT           "blog の管理画面にログインするときのユーザ名、または ID",
+                    IDC_STATIC,14,19,170,8
+    EDITTEXT        IDC_EDIT_BLOGUSERNAME,15,29,174,13,ES_AUTOHSCROLL
+    LTEXT           "blog の管理画面にログインするときのパスワード",
+                    IDC_STATIC,14,51,140,8
+    EDITTEXT        IDC_EDIT_BLOGPASSWORD,15,61,174,13,ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    LTEXT           "blog の種類",IDC_STATIC,14,83,36,8
+    COMBOBOX        IDC_COMBO_BLOG_LIST,15,93,174,158,CBS_DROPDOWN | 
+                    CBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "追加情報取得",IDC_BUTTON_MOREINFO,103,118,85,15
+    GROUPBOX        "追加情報",IDC_STATIC,200,7,156,131
+    LTEXT           "blog 名",IDC_STATIC,206,19,22,8
+    EDITTEXT        IDC_EDIT_BLOGNAME,207,29,142,13,ES_AUTOHSCROLL
+    LTEXT           "blog URL",IDC_STATIC,206,47,28,8
+    EDITTEXT        IDC_EDIT_BLOGURL,207,57,142,13,ES_AUTOHSCROLL
+    LTEXT           "blog ID",IDC_STATIC,206,75,22,8
+    EDITTEXT        IDC_EDIT_BLOGID,207,85,142,13,ES_AUTOHSCROLL
+    LTEXT           "エンドポイントURL",IDC_STATIC,206,103,52,8
+    EDITTEXT        IDC_EDIT_ENDPOINTURL,207,113,142,13,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,246,145,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,299,145,50,14
+END
+
+IDD_BLOG_DIALOG DIALOG DISCARDABLE  0, 0, 283, 283
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "blog 選択"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    LTEXT           "投稿先の blog を登録、または選択してください",
+                    IDC_STATIC,7,7,135,8
+    LTEXT           "blog 一覧",IDC_STATIC,7,25,29,8
+    LISTBOX         IDC_LIST_BLOG,7,37,269,218,LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "blog 追加",IDC_BUTTON_ADD_BLOG,7,261,50,15
+    PUSHBUTTON      "blog 削除",IDC_BUTTON_DELETE_BLOG,59,261,50,15
+    PUSHBUTTON      "登録情報修正",IDC_BUTTON_MODIFY_BLOG,111,261,50,15
+    DEFPUSHBUTTON   "OK",IDOK,175,261,50,15
+    PUSHBUTTON      "キャンセル",IDCANCEL,227,261,50,15
+END
+
+IDD_BLOGID_DIALOG DIALOG DISCARDABLE  0, 0, 187, 139
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "blog ID 選択"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    LTEXT           "記事を投稿する blog を選択してください。",IDC_STATIC,7,
+                    7,120,8
+    LISTBOX         IDC_LIST_BLOGID,7,19,173,91,LBS_NOINTEGRALHEIGHT | 
+                    LBS_WANTKEYBOARDINPUT | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,78,118,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,130,118,50,14
+END
+
+IDD_ENDPOINT_DIALOG DIALOG DISCARDABLE  0, 0, 187, 79
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "エンドポイントURL取得"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    LTEXT           "blog のトップページの URL を入力してください。",
+                    IDC_STATIC,7,7,139,8
+    LTEXT           "トップページのURL",IDC_STATIC,7,25,56,8
+    EDITTEXT        IDC_EDIT_TOPPAGE_URL,7,35,173,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,41,59,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,95,59,50,14
+END
+
+IDD_DIALOG_HOTEL_INFO DIALOG DISCARDABLE  0, 0, 375, 343
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ホテル情報"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    LTEXT           "MyLink (テキストリンク)",IDC_STATIC,7,181,69,8
+    EDITTEXT        IDC_EDIT_TEXT_LINK,17,191,351,31,ES_MULTILINE | 
+                    ES_WANTRETURN | WS_VSCROLL
+    LTEXT           "MyLink (画像リンク)",IDC_STATIC,7,228,69,8
+    EDITTEXT        IDC_EDIT1_IMAGE_LINK,17,238,351,31,ES_MULTILINE | 
+                    ES_WANTRETURN | WS_VSCROLL
+    LTEXT           "MyLink URL (実際にジャンプできるどうか、以下のリンクをクリックして確認してください)",
+                    IDC_STATIC,7,277,250,8
+    LTEXT           "http://.......................",IDC_AFFILIATE_URL,20,
+                    290,330,22,SS_NOPREFIX | SS_NOTIFY
+    PUSHBUTTON      "1つ前に戻る",IDC_BUTTON_BACKWARD,7,317,63,19
+    PUSHBUTTON      "1つ次へ進む",IDC_BUTTON_FORWARD,73,317,63,19
+    LTEXT           "SID",IDC_STATIC,159,325,11,8
+    EDITTEXT        IDC_EDIT_SID,176,322,43,14,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "PID",IDC_STATIC,227,325,11,8
+    EDITTEXT        IDC_EDIT_PID,244,322,43,14,ES_AUTOHSCROLL | ES_READONLY
+    DEFPUSHBUTTON   "閉じる",IDOK,318,317,50,19
+    LTEXT           "ホテル情報 #1",IDC_STATIC_HOTEL1,7,7,109,8
+    LTEXT           "ホテル名",IDC_STATIC,7,22,27,8
+    EDITTEXT        IDC_EDIT_HOTEL_NAME,39,20,329,14,ES_AUTOHSCROLL
+    LTEXT           "URL",IDC_STATIC,7,42,14,8
+    EDITTEXT        IDC_EDIT_HOTEL_URL,39,40,329,14,ES_AUTOHSCROLL
+    LTEXT           "画像URL",IDC_STATIC,7,62,27,8
+    EDITTEXT        IDC_EDIT_IMAGE_URL,39,60,329,14,ES_AUTOHSCROLL
+    LTEXT           "口上",IDC_STATIC,7,82,15,8
+    EDITTEXT        IDC_EDIT_CATCH_COPY,39,80,329,14,ES_AUTOHSCROLL
+    LTEXT           "説明",IDC_STATIC,7,102,15,8
+    EDITTEXT        IDC_EDIT_DESCRIPTION,39,100,329,14,ES_AUTOHSCROLL
+    LTEXT           "画像説明",IDC_STATIC,7,122,28,8
+    EDITTEXT        IDC_EDIT_IMAGE_DESCRIPTION,39,120,329,14,ES_AUTOHSCROLL
+    LTEXT           "所在地",IDC_STATIC,7,142,22,8
+    EDITTEXT        IDC_EDIT_HOTEL_ADDERESS,39,140,329,14,ES_AUTOHSCROLL
+    LTEXT           "チェックイン時間",IDC_STATIC,42,162,48,8
+    EDITTEXT        IDC_EDIT_CHEKIN_TIME,100,160,98,14,ES_AUTOHSCROLL
+    LTEXT           "チェックアウト時間",IDC_STATIC,212,162,54,8
+    EDITTEXT        IDC_EDIT_CHECKOUT_TIME,270,160,97,14,ES_AUTOHSCROLL
+END
+
+IDD_DIALOG_PROXY_INFO DIALOG DISCARDABLE  0, 0, 183, 159
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "proxy情報設定"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    LTEXT           "proxyサーバの URL(または IPアドレス)",IDC_STATIC,7,7,
+                    114,8
+    EDITTEXT        IDC_EDIT_PROXY_SERVER_NAME,20,17,138,14,ES_AUTOHSCROLL
+    LTEXT           "proxyサーバのポート番号",IDC_STATIC,7,39,76,8
+    EDITTEXT        IDC_EDIT_PROXY_PORT_NUMBER,20,49,138,14,ES_AUTOHSCROLL
+    LTEXT           "proxyサーバのユーザ名 (必要な場合のみ)",IDC_STATIC,7,71,
+                    126,8
+    EDITTEXT        IDC_EDIT_PROXY_USER_NAME,20,81,138,14,ES_AUTOHSCROLL
+    LTEXT           "proxyサーバのパスワード (必要な場合のみ)",IDC_STATIC,7,
+                    103,130,8
+    EDITTEXT        IDC_EDIT_PROXY_PASSWORD,20,113,138,14,ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,65,138,50,14
+END
+
+IDD_PROCEEDING_DIALOG DIALOG DISCARDABLE  0, 0, 173, 50
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "実行中……"
+FONT 10, "ＭＳ Ｐゴシック"
+BEGIN
+    PUSHBUTTON      "キャンセル",IDCANCEL,62,28,50,14,WS_DISABLED
+    LTEXT           "実行中……",IDC_STATIC_PROCEED_STRING,7,7,159,8
+END
+
+IDD_BLOGOLEE_MINI_DIALOG DIALOGEX 0, 0, 431, 237
+STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "BloGolEe"
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x1
+BEGIN
+    LTEXT           "題名",IDC_STATIC,7,7,15,8
+    EDITTEXT        IDC_EDIT_ARTICLE_TITLE,7,17,288,15,ES_AUTOHSCROLL
+    LTEXT           "概要",IDC_STATIC,7,38,15,8
+    EDITTEXT        IDC_EDIT_ARTICLE_SUMMARY,7,48,288,15,ES_AUTOHSCROLL
+    LTEXT           "本文/追記",IDC_STATIC,7,69,32,8
+    EDITTEXT        IDC_EDIT_ARTICLE,7,79,288,93,ES_MULTILINE | 
+                    ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL
+    LTEXT           "blog 名",IDC_STATIC,7,178,22,8
+    EDITTEXT        IDC_EDIT_BLOG_NAME,7,188,289,15,ES_AUTOHSCROLL | 
+                    WS_DISABLED
+    PUSHBUTTON      "blog 切替",IDC_BUTTON_SWITCH_BLOG,7,213,40,17
+    PUSHBUTTON      "blog を見る",IDC_BUTTON_BROWSE_BLOG,49,213,40,17
+    LTEXT           "投稿する記事のカテゴリ",IDC_STATIC,299,7,71,8
+    LISTBOX         IDC_LIST_CATEGORY,302,17,122,72,LBS_NOINTEGRALHEIGHT | 
+                    LBS_WANTKEYBOARDINPUT | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    PUSHBUTTON      "カテゴリ一覧取得",IDC_BUTTON_GET_CATEGORIES,359,93,65,
+                    17,WS_GROUP
+    GROUPBOX        "はてなダイアリーキーワード",IDC_STATIC,326,121,98,24,
+                    WS_GROUP
+    CONTROL         "使う",IDC_RADIO_KEYWORD_ON,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,338,131,27,10
+    CONTROL         "使わない",IDC_RADIO_KEYWORD_OFF,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP,374,131,42,10
+    GROUPBOX        "おすすめ",IDC_STATIC,326,148,98,24,WS_GROUP
+    CONTROL         "使う",IDC_RADIO_SIMILARITY_ON,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP,338,158,27,10
+    CONTROL         "使わない",IDC_RADIO_SIMILARITY_OFF,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP,374,158,42,10
+    DEFPUSHBUTTON   "投稿",IDOK,187,213,67,17,BS_MULTILINE
+    PUSHBUTTON      "終了",IDCANCEL,256,213,40,17
+    PUSHBUTTON      "大",IDC_BUTTON_LARGE,310,213,15,17
+    LTEXT           "BloGolEe  Ver 1.12 β",IDC_VERSION,339,190,79,8
+    LTEXT           "Presented by tsupo",IDC_STATIC,358,200,58,8
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,6,1
+ PRODUCTVERSION 1,0,6,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041104b0"
+        BEGIN
+            VALUE "Comments", "ブログやSNSに記事や日記を投稿するツール\0"
+            VALUE "CompanyName", "観測気球 http://watcher.moe-nifty.com/\0"
+            VALUE "FileDescription", "ブログクライアント BloGolEe\0"
+            VALUE "FileVersion", "1, 0, 6, 1\0"
+            VALUE "InternalName", "blogolee\0"
+            VALUE "LegalCopyright", "Copyright (C) 2007, 2008, 2009 tsupo (Hiroshi Tsujimura)\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "blogolee.EXE\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "BloGolEe\0"
+            VALUE "ProductVersion", "1, 0, 6, 1\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x411, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 190
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 58
+    END
+
+    IDD_BLOGOLEE_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 396
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 462
+    END
+
+    IDD_ADD_BLOGINFO_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 356
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 162
+    END
+
+    IDD_BLOG_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 276
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 276
+    END
+
+    IDD_BLOGID_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 132
+    END
+
+    IDD_ENDPOINT_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 72
+    END
+
+    IDD_DIALOG_HOTEL_INFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 368
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 336
+    END
+
+    IDD_DIALOG_PROXY_INFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 176
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 152
+    END
+
+    IDD_PROCEEDING_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 166
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 42
+    END
+
+    IDD_BLOGOLEE_MINI_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 424
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 230
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+IDC_HAND2               CURSOR  DISCARDABLE     "res\\hand2.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_BLOGOLEE_DIALOG DLGINIT
+BEGIN
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0x6b96, 0x438a, 0xb993, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xc290, 0x5890, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xe28a, 0xe88e, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0x7b8b, 0xe98f, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0x488f, 0x6393, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0x528e, 0x608c, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0x9f95, 0x8793, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xc893, 0xd896, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0x518c, 0x6e94, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xef88, 0xe98f, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xe98d, 0xca8b, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xe790, 0x7497, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0x8c93, 0x9e8b, 0x7393, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 9, 0
+0x5f90, 0xde93, 0xec90, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0x528e, 0x9c97, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xb792, 0xec96, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0x5690, 0x838a, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0x7895, 0x528e, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xce90, 0xec90, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0x9f95, 0xe488, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xc390, 0xaa89, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xf28a, 0x8c95, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xa488, 0x6d92, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0x4f8e, 0x648f, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xa08e, 0xea89, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0x9e8b, 0x7393, 0x7b95, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xe591, 0xe38d, 0x7b95, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xba95, 0xc98c, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xde93, 0xc797, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 9, 0
+0x6198, 0xcc89, 0x528e, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xb992, 0xe68e, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0x8793, 0xaa8d, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xaa89, 0x528e, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0x4c8d, 0x8793, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0x528e, 0xfb8c, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xbf93, 0x8793, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0x818d, 0xec90, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xa488, 0x5195, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0x828d, 0x6d92, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0x9f95, 0xaa89, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xb28d, 0xea89, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xb792, 0xe88d, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0x468c, 0x7b96, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xe591, 0xaa95, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0x7b8b, 0xe88d, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 9, 0
+0xad8e, 0x998e, 0x8793, 0xa78c, "\000" 
+    IDC_COMBO_AREA_LIST, 0x403, 7, 0
+0xab89, 0xea93, 0xa78c, "\000" 
+    IDC_COMBO_HOTEL_TYPE, 0x403, 9, 0
+0x778e, 0xe892, 0xc882, 0xb582, "\000" 
+    IDC_COMBO_HOTEL_TYPE, 0x403, 5, 0
+0xb797, 0xd98a, "\000" 
+    IDC_COMBO_HOTEL_TYPE, 0x403, 17, 0
+0x7983, 0x9383, 0x5683, 0x8783, 0x9383, 0x4581, 0xaf96, 0x688f, "\000" 
+    IDC_COMBO_HOTEL_TYPE, 0x403, 23, 0
+0xdd91, 0xca95, 0x9191, 0x4581, 0x5283, 0x9383, 0x6883, 0x7e83, 0x6a83, 
+0x4183, 0x8083, "\000" 
+    IDC_COMBO_HOTEL_TYPE, 0x403, 23, 0
+0x7a83, 0x6583, 0x8b83, 0x4581, 0x7283, 0x5783, 0x6c83, 0x5883, 0x7a83, 
+0x6583, 0x8b83, "\000" 
+    IDC_COMBO_HOTEL_TYPE, 0x403, 5, 0
+0xb789, 0xf290, "\000" 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ABOUTBOX            "BloGolEe のバージョン情報(&A)..."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_MAIL_ADDR           "mailto:tsupo@na.rim.or.jp"
+    IDS_WEB_URL             "http://watcher.moe-nifty.com/memo/2007/03/blogolee.html"
+    IDS_WEB_HOTPEPPER       "http://www.hotpepper.jp/"
+    IDS_WEB_JALAN           "http://jws.jalan.net/"
+    IDS_TXT_CONTINUE_PROCEEDING "実行中……"
+    IDS_VERSION             "BloGolEe Version 1.20 β"
+END
+
+#endif    // 日本語 resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE 17, 1
+#pragma code_page(932)
+#endif //_WIN32
+#include "res\blogolee.rc2"  // Microsoft Visual C++ 以外のツールで編集されたリソース
+#include "l.jpn\afxres.rc"          // 標準のコンポーネント
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

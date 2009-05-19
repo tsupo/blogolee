@@ -1,0 +1,44 @@
+﻿
+'BloGolEe' is a blog client (blog editor).
+
+Target blogs:
+    TypePad
+    TypePad Japan
+    Cocolog
+    Cocolog Free
+    Blogzine
+    News-Handler
+    Seesaa BLOG
+    NetLaputa BLOG
+    296g
+    SweetBox Blog
+    livedoor Blog
+    LOVELOG
+    So-net blog
+    Blogger
+    Vox
+    Movable Type
+    BlogPet rearing cage (飼育箱)
+    Ameba Blog
+    FC2BLOG
+    goo Blog
+    Windows Live Spaces
+    JUGEM
+    Yaplog!
+    Drecom Blog
+    Hatena Diary
+    excite blog
+    Webry Blog
+    Rakuten Blog
+    mixi
+    Kinugasa
+    Echoo (エコログ)
+    FC2NETWORK
+    COLORS
+    OpenPNE
+
+
+xmlRPC libraries are necessary for building this application.
+
+  xmlRPC: 
+    http://github.com/tsupo/xmlRPC/tree
