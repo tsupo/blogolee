@@ -11,6 +11,12 @@
  * History:
  * $Log: /comm/blogolee/postArticle.h $
  * 
+ * 2     09/05/27 1:47 tsupo
+ * 1.22版
+ * 
+ * 21    09/05/26 21:52 Tsujimura543
+ * tumblr への投稿に対応
+ * 
  * 1     09/05/14 3:47 tsupo
  * (1) ビルド環境のディレクトリ構造を整理
  * (2) VSSサーバ拠点を変更
@@ -169,6 +175,7 @@ typedef enum blogKind {
     gooBlog      = BLOGKIND_GOOBLOG,        // goo Blog
     colors       = BLOGKIND_COLORS,         // COLORS内ダイアリー
     openPne      = BLOGKIND_OPENPNE,        // OpenPNE
+    tumblr       = BLOGKIND_TUMBLR,         // tumblr
     unsupported  = BLOGKIND_NOSUPPORT       // 未サポート blog
 }   BLOGKIND;
 
@@ -260,6 +267,14 @@ int
 postArticleOnSimanity(
         const char *username,           /* ユーザ名(メールアドレス) */
         const char *password,           /* パスワード               */
+        char       *title,              /* 投稿記事題名             */
+        char       *body );             /* 投稿記事本文             */
+
+int
+postArticleOnTumblr(
+        const char *username,           /* ユーザ名(メールアドレス) */
+        const char *password,           /* パスワード               */
+        const char *group,              /* 投稿先のtumblelog        */
         char       *title,              /* 投稿記事題名             */
         char       *body );             /* 投稿記事本文             */
 
@@ -368,6 +383,13 @@ getBlogIDsRakuten(
                                 // (O) 取得した blog 情報の数
     BLOGINF    *blogInfo );     // (O) 取得した blog 情報
 
+int
+getBlogIDsTumblr(
+    const char *userName,       // (I) ユーザ名(メールアドレス)
+    const char *password,       // (I) パスワード
+    int        *numberOfBlogs,  // (I) 取得する blog 情報の数
+                                // (O) 取得した blog 情報の数
+    BLOGINF    *blogInfo );     // (O) 取得した blog 情報
 
 /*
  *  blog 情報
@@ -386,6 +408,7 @@ typedef struct postArticleInfo  {
     char      blogUserName[MAX_USERIDLEN + 1];     /* blog login 名         */
     char      blogPassword[MAX_PASSWDLEN + 1];     /* blog パスワード       */
     char      blogID[MAX_BLOGIDLENGTH + 1];        /* blogID                */
+    char      blogURL[MAX_URLLENGTH + 1];          /* blog URL              */
     BLOGKIND  blogType;                            /* blog種別              */
     char      endpointURL[MAX_URLLENGTH + 1];      /* エンドポイントURL     */
     int       charSet;                             /* 文字コード種別        */

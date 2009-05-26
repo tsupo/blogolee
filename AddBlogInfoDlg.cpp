@@ -11,6 +11,12 @@
  *
  * $Log: /comm/blogolee/AddBlogInfoDlg.cpp $
  * 
+ * 2     09/05/27 1:47 tsupo
+ * 1.22版
+ * 
+ * 12    09/05/26 21:52 Tsujimura543
+ * tumblr への投稿に対応
+ * 
  * 1     09/05/14 3:47 tsupo
  * (1) ビルド環境のディレクトリ構造を整理
  * (2) VSSサーバ拠点を変更
@@ -61,7 +67,7 @@
 
 #ifndef	lint
 static char	*rcs_id =
-"$Header: /comm/blogolee/AddBlogInfoDlg.cpp 1     09/05/14 3:47 tsupo $";
+"$Header: /comm/blogolee/AddBlogInfoDlg.cpp 2     09/05/27 1:47 tsupo $";
 #endif
 
 #ifdef _DEBUG
@@ -166,7 +172,8 @@ void    CAddBlogInfoDlg::switchEndpointURL()
          (m_blogKind == vox)          ||
          (m_blogKind == hatena)       ||
          (m_blogKind == blogger)      ||
-         (m_blogKind == movableType)     ) {
+         (m_blogKind == movableType)  ||
+         (m_blogKind == tumblr)          ) {
         int blogKindIndex = -1;
         int i;
 
@@ -243,11 +250,11 @@ void    CAddBlogInfoDlg::switchBlogName()
         m_blogName = "BlogPet 飼育箱";
         cp->SetReadOnly( TRUE );
     }
-    else if ( /* (m_blogKind == movableType)  || */
-                 (m_blogKind == bloggerAPI)   ||
-                 (m_blogKind == metaWeblog)   ||
-                 (m_blogKind == mtAPI)        ||
-                 (m_blogKind == atomAPI)         )
+    else if ( /* (m_blogKind == movableType) || */
+                 (m_blogKind == bloggerAPI)  ||
+                 (m_blogKind == metaWeblog)  ||
+                 (m_blogKind == mtAPI)       ||
+                 (m_blogKind == atomAPI)        )
         cp->SetReadOnly( FALSE );
     else if ( (m_blogKind == typepad)      ||
               (m_blogKind == typepadJapan) ||
@@ -271,7 +278,8 @@ void    CAddBlogInfoDlg::switchBlogName()
               (m_blogKind == sonet)        ||
               (m_blogKind == vox)          ||
               (m_blogKind == hatena)       ||
-              (m_blogKind == blogger)         ) {
+              (m_blogKind == blogger)      ||
+              (m_blogKind == tumblr)          ) {
         cp->SetReadOnly( TRUE );
     }
     else if ( m_blogKind == kinugasa ) {
@@ -355,7 +363,8 @@ void    CAddBlogInfoDlg::switchMoreInfo()
          (m_blogKind == blogger)      ||
          (m_blogKind == exciteBlog)   ||
          (m_blogKind == echoo)        ||
-         (m_blogKind == rakuten)         ) {
+         (m_blogKind == rakuten)      ||
+         (m_blogKind == tumblr)          ) {
         if ( (m_blogUserName.GetLength() > 0) &&
              (m_blogPassword.GetLength() > 0)    )
             bp->EnableWindow( TRUE );
@@ -639,7 +648,8 @@ void CAddBlogInfoDlg::OnButtonMoreInfo()
     }
     else if ( (m_blogKind == exciteBlog) ||
               (m_blogKind == echoo)      ||
-              (m_blogKind == rakuten)       ) {
+              (m_blogKind == rakuten)    ||
+              (m_blogKind == tumblr)        ) {
         BLOGINF blogInfo[MAX_BLOGS];
         int     numOfBlogs = MAX_BLOGS;
         int     r = 0;
@@ -661,9 +671,36 @@ void CAddBlogInfoDlg::OnButtonMoreInfo()
             r = getBlogIDsRakuten( m_blogUserName, m_blogPassword,
                                    &numOfBlogs, blogInfo );
             break;
+
+        case tumblr:
+            r = getBlogIDsTumblr( m_blogUserName, m_blogPassword,
+                                  &numOfBlogs, blogInfo );
+            break;
         }
 
-        if ( r == 1 ) {
+        if ( r > 1 ) {
+            /* ---- 投稿先 blog の選択 */
+            int rr = selectBlog( blogInfo, r );
+            if ( (rr >= 0) && (rr < r) ) {
+                r = rr;
+                m_blogName = blogInfo[r].blogName;  /* 確定 */
+                m_blogID   = blogInfo[r].blogID;    /* 確定 */
+                m_blogURL  = blogInfo[r].url;       /* 確定 */
+
+                p = (CEdit *)GetDlgItem( IDC_EDIT_BLOGNAME );
+                p->SetWindowText( (const char *)m_blogName );
+
+                p = (CEdit *)GetDlgItem( IDC_EDIT_BLOGID );
+                p->SetWindowText( (const char *)m_blogID );
+
+                p = (CEdit *)GetDlgItem( IDC_EDIT_BLOGURL );
+                p->SetWindowText( m_blogURL );
+
+                MessageBox( "blog ID の取得に成功しました。    ",
+                            "取得成功", MB_OK|MB_ICONINFORMATION );
+            }
+        }
+        else if ( r == 1 ) {
             MessageBox( "blog URL の取得に成功しました。    ",
                         "取得成功", MB_OK|MB_ICONINFORMATION );
 

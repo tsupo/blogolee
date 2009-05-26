@@ -9,6 +9,12 @@
  *
  * $Log: /comm/blogolee/utility.cpp $
  * 
+ * 2     09/05/27 1:47 tsupo
+ * 1.22版
+ * 
+ * 6     09/05/26 21:52 Tsujimura543
+ * tumblr への投稿に対応
+ * 
  * 1     09/05/14 3:47 tsupo
  * (1) ビルド環境のディレクトリ構造を整理
  * (2) VSSサーバ拠点を変更
@@ -44,7 +50,7 @@ extern "C" {
 
 #ifndef	lint
 static char	*rcs_id =
-"$Header: /comm/blogolee/utility.cpp 1     09/05/14 3:47 tsupo $";
+"$Header: /comm/blogolee/utility.cpp 2     09/05/27 1:47 tsupo $";
 #endif
 
 CString
@@ -212,6 +218,79 @@ void    encodeParameter(
 void    freeParameter( unsigned char *rsaString )
 {
     freeRSAkey( rsaString );
+}
+
+
+char    *
+any2utf( const char *p )
+{
+    char    *q;
+
+    q = utf2sjis( p );
+    if ( q )
+        q = (char *)p;  // すでに UTF-8 変換済み
+    else {
+        // p の charset は UTF-8 ではない
+        if ( strstr( p, "\033$@" ) || strstr( p, "\033$B" ) )
+            q = jis2utf( p );
+        else {
+            q = euc2sjis( p );
+            if ( q )
+                q = euc2utf( p );
+            if ( !q )
+                q = sjis2utf( p );
+            if ( !q && p ) {
+                /* 以下、Vox 対策 */
+                char    *r = (char *)malloc( strlen(p) * 12 + 1 );
+
+                if ( r ) {
+                    char    *s;
+
+                    strcpy( r, p );
+                    s = utf2sjisEx( r );    /* (主として) &ccedil; 対策 */
+                    if ( s )
+                        q = sjis2utf( s );
+                    free( r );
+                }
+            }
+            if ( !q )
+                q = (char *)p;
+        }
+    }
+
+    return ( q );
+}
+
+/* 指定文字列を別の指定文字列に置換する */
+BOOL
+replaceString( char *target, const char *src, const char *dst )
+{
+    char    *p = target;
+    char    *q;
+    BOOL    ret = FALSE;
+    int     len = strlen( dst );
+
+    while ( ( q = strstr( p, src ) ) != NULL ) {
+        char    *temp;
+        int     l = strlen( src );
+
+        temp = (char *)malloc( strlen( p ) - l + strlen( dst ) + 1 );
+        if ( temp ) {
+            strncpy( temp, p, q - p );
+            strcpy( &(temp[q - p]), dst );
+            strcat( temp, q + l );
+
+            strcpy( p, temp );
+            free( temp );
+            ret = TRUE;
+
+            p = q + len;
+        }
+        else
+            break;
+    }
+
+    return ( ret );
 }
 
 

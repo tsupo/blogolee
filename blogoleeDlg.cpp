@@ -11,6 +11,12 @@
  *
  * $Log: /comm/blogolee/blogoleeDlg.cpp $
  * 
+ * 2     09/05/27 1:47 tsupo
+ * 1.22版
+ * 
+ * 44    09/05/26 21:52 Tsujimura543
+ * tumblr への投稿に対応
+ * 
  * 1     09/05/14 3:47 tsupo
  * (1) ビルド環境のディレクトリ構造を整理
  * (2) VSSサーバ拠点を変更
@@ -187,7 +193,7 @@
 
 #ifndef	lint
 static char	*rcs_id =
-"$Header: /comm/blogolee/blogoleeDlg.cpp 1     09/05/14 3:47 tsupo $";
+"$Header: /comm/blogolee/blogoleeDlg.cpp 2     09/05/27 1:47 tsupo $";
 #endif
 
 #ifdef _DEBUG
@@ -919,6 +925,12 @@ void    CBlogoleeDlg::initBlogKindList()
     m_blogKindInfo[cnt].blogKindString = "はてなダイアリー";
     m_blogKindInfo[cnt].blogKindID     = "hatena";
     m_blogKindInfo[cnt].endpointURL    = ATOMURL_HATENADIARY;
+    cnt++;
+
+    m_blogKindInfo[cnt].blogKind       = tumblr;
+    m_blogKindInfo[cnt].blogKindString = "Tumblr";
+    m_blogKindInfo[cnt].blogKindID     = "tumblr";
+    m_blogKindInfo[cnt].endpointURL    = APIURL_TUMBLR_WRITE;
     cnt++;
 
     m_blogKindInfo[cnt].blogKind       = unsupported;
@@ -3566,10 +3578,7 @@ ExecutePostArticle( LPVOID pParam )
 
     if ( p ) {
         BLOGOLEE_PARAM  *pp = (BLOGOLEE_PARAM *)p;
-        BOOL            ret = postArticle( &(pp->article), &(pp->postInfo) );
-        if ( ret == FALSE )
-            MessageBox( NULL, "投稿に失敗しました。", "投稿失敗",
-                        MB_OK|MB_ICONWARNING );
+        postArticle( &(pp->article), &(pp->postInfo) );
     }
 
     return ( 0 );
@@ -3693,6 +3702,13 @@ void CBlogoleeDlg::OnExecutePostArticle()
 
     /* blog種別 */
     param.postInfo.blogType = m_blogKind;
+
+    /* blog URL */
+    if ( m_blogURL.GetLength() > 0 )
+        strcpy( param.postInfo.blogURL,
+                (const char*)m_blogURL );
+    else
+        param.postInfo.blogURL[0] = NUL;
 
     /* エンドポイントURL */
     if ( m_endpointURL.GetLength() > 0 )

@@ -174,7 +174,7 @@ BEGIN
     COMBOBOX        IDC_COMBO_BLOGKIND,15,287,116,106,CBS_DROPDOWN | 
                     CBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "blog 切替",IDC_BUTTON_SWITCH_BLOG,141,284,40,17
-    PUSHBUTTON      "blog を見る",IDC_BUTTON_BROWSE_BLOG,188,284,40,17
+    PUSHBUTTON      "blog を見る",IDC_BUTTON_BROWSE_BLOG,188,284,52,17
     PUSHBUTTON      "小",IDC_BUTTON_SMALL,59,447,13,13
     PUSHBUTTON      "proxy設定",IDC_BUTTON_PROXY,14,447,40,13
     LTEXT           "BloGolEe  Ver 1.12 β",IDC_VERSION,237,451,78,8
@@ -383,8 +383,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,6,1
- PRODUCTVERSION 1,0,6,1
+ FILEVERSION 1,0,6,2
+ PRODUCTVERSION 1,0,6,2
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -402,14 +402,14 @@ BEGIN
             VALUE "Comments", "ブログやSNSに記事や日記を投稿するツール\0"
             VALUE "CompanyName", "観測気球 http://watcher.moe-nifty.com/\0"
             VALUE "FileDescription", "ブログクライアント BloGolEe\0"
-            VALUE "FileVersion", "1, 0, 6, 1\0"
+            VALUE "FileVersion", "1, 0, 6, 2\0"
             VALUE "InternalName", "blogolee\0"
             VALUE "LegalCopyright", "Copyright (C) 2007, 2008, 2009 tsupo (Hiroshi Tsujimura)\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "blogolee.EXE\0"
             VALUE "PrivateBuild", "\0"
             VALUE "ProductName", "BloGolEe\0"
-            VALUE "ProductVersion", "1, 0, 6, 1\0"
+            VALUE "ProductVersion", "1, 0, 6, 2\0"
             VALUE "SpecialBuild", "\0"
         END
     END
@@ -656,7 +656,7 @@ BEGIN
     IDS_WEB_HOTPEPPER       "http://www.hotpepper.jp/"
     IDS_WEB_JALAN           "http://jws.jalan.net/"
     IDS_TXT_CONTINUE_PROCEEDING "実行中……"
-    IDS_VERSION             "BloGolEe Version 1.20 β"
+    IDS_VERSION             "BloGolEe Version 1.22 β"
 END
 
 #endif    // 日本語 resources

@@ -8,6 +8,12 @@
  *
  * $Log: /comm/blogolee/utility.h $
  * 
+ * 2     09/05/27 1:47 tsupo
+ * 1.22版
+ * 
+ * 5     09/05/26 21:52 Tsujimura543
+ * tumblr への投稿に対応
+ * 
  * 1     09/05/14 3:47 tsupo
  * (1) ビルド環境のディレクトリ構造を整理
  * (2) VSSサーバ拠点を変更
@@ -65,6 +71,8 @@ void    freeParameter( unsigned char *rsaString );
 #ifdef __cplusplus
 extern "C" {
 #endif
+char    *any2utf( const char *p );
+BOOL    replaceString( char *target, const char *src, const char *dst );
 int     selectBlog( BLOGINF *blogInfo, int numOfBlogs );
 #ifdef __cplusplus
 }

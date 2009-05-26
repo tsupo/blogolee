@@ -54,7 +54,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /machine:I386
-# ADD LINK32 xmlRPC.lib /nologo /version:1.21 /subsystem:windows /machine:I386 /libpath:"..\xmlRPC\Release"
+# ADD LINK32 xmlRPC.lib /nologo /version:1.22 /subsystem:windows /machine:I386 /libpath:"..\xmlRPC\Release"
 
 !ELSEIF  "$(CFG)" == "blogolee - Win32 Debug"
 
@@ -81,7 +81,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 xmlRPC.lib /nologo /version:1.21 /subsystem:windows /incremental:no /debug /machine:I386 /pdbtype:sept /libpath:"..\xmlRPC\Debug"
+# ADD LINK32 xmlRPC.lib /nologo /version:1.22 /subsystem:windows /incremental:no /debug /machine:I386 /pdbtype:sept /libpath:"..\xmlRPC\Debug"
 
 !ENDIF 
 
@@ -187,6 +187,10 @@ SOURCE=.\blogs\rakuten.c
 # Begin Source File
 
 SOURCE=.\strncmpi.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\blogs\tumblr.c
 # End Source File
 # Begin Source File
 

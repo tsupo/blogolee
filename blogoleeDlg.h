@@ -10,6 +10,12 @@
  *
  * $Log: /comm/blogolee/blogoleeDlg.h $
  * 
+ * 2     09/05/27 1:47 tsupo
+ * 1.22版
+ * 
+ * 20    09/05/26 21:52 Tsujimura543
+ * tumblr への投稿に対応
+ * 
  * 1     09/05/14 3:47 tsupo
  * (1) ビルド環境のディレクトリ構造を整理
  * (2) VSSサーバ拠点を変更
@@ -86,7 +92,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#define BLOGOLEE_NUM_OF_BLOG_KINDS      48
+#define BLOGOLEE_NUM_OF_BLOG_KINDS      64
 #define BLOGOLEE_MAX_BLOG_NAME_LENGTH   MAX_BLOGNAMELENGTH
 
 #define BLOGOLEE_INF_EOF_STRING         "## end of file ##"

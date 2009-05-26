@@ -11,6 +11,12 @@
  * History:
  * $Log: /comm/blogolee/postArticle.c $
  * 
+ * 2     09/05/27 1:47 tsupo
+ * 1.22版
+ * 
+ * 27    09/05/26 21:52 Tsujimura543
+ * tumblr への投稿に対応
+ * 
  * 1     09/05/14 3:47 tsupo
  * (1) ビルド環境のディレクトリ構造を整理
  * (2) VSSサーバ拠点を変更
@@ -722,7 +728,7 @@
 
 #ifndef	lint
 static char	*rcs_id =
-"$Header: /comm/blogolee/postArticle.c 1     09/05/14 3:47 tsupo $";
+"$Header: /comm/blogolee/postArticle.c 2     09/05/27 1:47 tsupo $";
 #endif
 
 extern BLOG_INFO    blog_info_tbl[];
@@ -1382,28 +1388,6 @@ postArticleOnAtomAPI(
     return ( ret );
 }
 
-BOOL
-checkResult( BLOGKIND blogType, BOOL *error )
-{
-    char    *p;
-    char    lastURL[4096];
-    BOOL    bRet = FALSE;
-
-    *error = FALSE;
-    memset( lastURL, 0, 4096 );
-    p = getCurrentLocation( lastURL );
-    if ( p && *p ) {
-        if ( (blogType == cocolog)     ||
-             (blogType == cocologFree)    ) {
-            if ( strstr( p, "/error/502" ) != NULL ) {
-                bRet   = FALSE; //  502 (サーバービジー)
-                *error = TRUE;
-            }
-        }
-    }
-
-    return ( bRet );
-}
 
 int
 postArticleOnXMLRPC( const char *blogID,        /* 投稿先 blog ID     */
@@ -1427,8 +1411,7 @@ postArticleOnXMLRPC( const char *blogID,        /* 投稿先 blog ID     */
     CONTENTINF  content2;
     int         i;
     int         retry, retry2;
-    BOOL        bRet  = FALSE;
-    BOOL        error = FALSE;
+    BOOL        bRet = FALSE;
 
     if ( (blogType != bloggerAPI)  &&
          (blogType != metaWeblog)  &&
@@ -1541,10 +1524,6 @@ postArticleOnXMLRPC( const char *blogID,        /* 投稿先 blog ID     */
                               &content, TRUE, postID ); /* metaWeblog API */
 
         if ( postID[0] == NUL ) {
-            bRet = checkResult( blogType, &error );
-            if ( error )
-                break;
-
             retry2 = 5;
             do {
                 retry2--;
@@ -1565,19 +1544,12 @@ postArticleOnXMLRPC( const char *blogID,        /* 投稿先 blog ID     */
                 else
                     getRecentPost( blogID, NULL, NULL, &content2 );
 
-                bRet = checkResult( blogType, &error );
-                if ( error )
-                    break;
-
                 if ( content2.postid[0]                                  &&
                      ((content0.postid[0] == NUL) ||
                       (strcmp( content2.postid, content0.postid ) != 0))    )
                     strcpy( postID, content2.postid );
             } while ( postID[0] == NUL );
         }
-
-        if ( error )
-            break;
     } while ( postID[0] == NUL );
 
     if ( postID[0] && (found == TRUE) ) {
@@ -1593,9 +1565,6 @@ postArticleOnXMLRPC( const char *blogID,        /* 投稿先 blog ID     */
                 category.isPrimary = TRUE;
                 ret = setPostCategories( postID, NULL, NULL, 1, &category );
                                                     /* Movable Type API */
-                bRet = checkResult( blogType, &error );
-                if ( error )
-                    break;
             } while ( ret == FALSE );
 
             /* -- rebuild */
@@ -1611,9 +1580,6 @@ postArticleOnXMLRPC( const char *blogID,        /* 投稿先 blog ID     */
                 /* Movable Type 互換 API サポート blog の場合 */
                 retry = 5;
                 do {
-                    if ( error )
-                        break;
-
                     retry--;
                     if ( retry < 0 )
                         break;
@@ -1621,8 +1587,6 @@ postArticleOnXMLRPC( const char *blogID,        /* 投稿先 blog ID     */
                     ret = publishPost(postID,NULL,NULL);/* Movable Type API */
                         /* 注意: この関数の実行中にタイムアウトが発生した場 */
                         /*       合はカテゴリが反映されていない可能性が高い */
-
-                    bRet = checkResult( blogType, &error );
                 } while ( ret == FALSE );
          // }
         }
@@ -1749,6 +1713,17 @@ postArticle(
             return ( postArticleOnOpenPNE( postInfo->blogUserName,
                                            postInfo->blogPassword,
                                            article->title, article->body ) );
+                            /* OpenPNE専用投稿処理 */
+
+        if ( postInfo->blogType == tumblr )
+            return ( postArticleOnTumblr( postInfo->blogUserName,
+                                          postInfo->blogPassword,
+                                          postInfo->blogID[0]
+                                            ? postInfo->blogID
+                                            : postInfo->blogURL,
+                                          article->title, article->body ) );
+                            /* Tumblr専用投稿処理 */
+
         if ( postInfo->blogID[0] ) {
             if ( (postInfo->blogType == livedoor) ||
                  (postInfo->blogType == lovelog)  ||
