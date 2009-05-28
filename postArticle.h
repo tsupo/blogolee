@@ -11,6 +11,17 @@
  * History:
  * $Log: /comm/blogolee/postArticle.h $
  * 
+ * 3     09/05/29 7:55 tsupo
+ * 1.23版
+ * 
+ * 23    09/05/28 18:41 Tsujimura543
+ * (1) バグ修正 (Amazon API 関連処理でメモリ破壊)
+ * (2) バッファオーバーラン対策を強化
+ * 
+ * 22    09/05/27 22:19 Tsujimura543
+ * Amazon API および 楽天 API 関係をアップデート
+ * (Amazon API の認証は未対応 → xmlRPC.dll 側の対応と同時に作業予定)
+ * 
  * 2     09/05/27 1:47 tsupo
  * 1.22版
  * 
@@ -416,7 +427,9 @@ typedef struct postArticleInfo  {
     int       useProxy;                       /* proxy経由で通信するか否か  */
     int       useSimilarity;                        /* おすすめを使うか否か */
     char      amazonAssociateID[MAX_NAMELEN + 1];   /* AmazonアソシエイトID */
+    char      amazonSubscriptionID[MAX_NAMELEN + 1];/* Amazon開発者ID       */
     char      rakutenAffiliateID[MAX_KEYLENGTH + 1];/* 楽天アフィリエイトID */
+    char      rakutenDeveloperID[MAX_KEYLENGTH + 1];/* 楽天ディベロッパーID */
     int       numOfRecomended;                      /* おすすめ掲載件数     */
     char      categoryName[MAX_CATIDLENGTH + 1];    /* 投稿対象のカテゴリ名 */
     char      templateID[MAX_CATIDLENGTH + 1];      /* テンプレートID       */
@@ -424,10 +437,15 @@ typedef struct postArticleInfo  {
 
 typedef struct articleInfo {
     char      *title;       // 記事題名
+    size_t    title_size;
     char      *body;        // 記事本文
+    size_t    body_size;
     char      *summary;     // 記事概要   (option)
+    size_t    summary_size;
     char      *extended;    // 追記       (option)
+    size_t    extended_size;
     char      *keyword;     // キーワード (option)
+    size_t    keyword_size;
 #if 0
     int       yyyy;         // 投稿日時 (年)
     int       mm;           // 投稿日時 (月)

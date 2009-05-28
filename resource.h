@@ -100,6 +100,11 @@
 #define IDS_WEB_JALAN                   61207
 #define IDS_TXT_CONTINUE_PROCEEDING     61208
 #define IDS_VERSION                     61209
+#define IDS_AMAZON_P001                 61210
+#define IDS_AMAZON_P002                 61211
+#define IDS_RAKUTEN_D001                61212
+#define IDS_RAKUTEN_D002                61213
+#define IDS_RAKUTEN_D003                61214
 
 // Next default values for new objects
 // 

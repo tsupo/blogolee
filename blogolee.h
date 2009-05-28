@@ -8,6 +8,13 @@
  *
  * $Log: /comm/blogolee/blogolee.h $
  * 
+ * 2     09/05/29 7:55 tsupo
+ * 1.23版
+ * 
+ * 7     09/05/27 22:19 Tsujimura543
+ * Amazon API および 楽天 API 関係をアップデート
+ * (Amazon API の認証は未対応 → xmlRPC.dll 側の対応と同時に作業予定)
+ * 
  * 1     09/05/14 3:47 tsupo
  * (1) ビルド環境のディレクトリ構造を整理
  * (2) VSSサーバ拠点を変更
@@ -105,6 +112,13 @@ public:
         long     numOfCategories;               /*  カテゴリーの数          */
         char     **catagory;                    /*  カテゴリーのリスト      */
     }   *m_blogList;
+
+    CString     m_asID;
+    CString     m_aaID;
+    
+    CString     m_rdID;
+    CString     m_raID;
+    CString     m_raID2;
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。

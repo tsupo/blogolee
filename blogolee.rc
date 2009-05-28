@@ -383,8 +383,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,6,2
- PRODUCTVERSION 1,0,6,2
+ FILEVERSION 1,0,6,3
+ PRODUCTVERSION 1,0,6,3
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -402,14 +402,14 @@ BEGIN
             VALUE "Comments", "ブログやSNSに記事や日記を投稿するツール\0"
             VALUE "CompanyName", "観測気球 http://watcher.moe-nifty.com/\0"
             VALUE "FileDescription", "ブログクライアント BloGolEe\0"
-            VALUE "FileVersion", "1, 0, 6, 2\0"
+            VALUE "FileVersion", "1, 0, 6, 3\0"
             VALUE "InternalName", "blogolee\0"
             VALUE "LegalCopyright", "Copyright (C) 2007, 2008, 2009 tsupo (Hiroshi Tsujimura)\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "blogolee.EXE\0"
             VALUE "PrivateBuild", "\0"
             VALUE "ProductName", "BloGolEe\0"
-            VALUE "ProductVersion", "1, 0, 6, 2\0"
+            VALUE "ProductVersion", "1, 0, 6, 3\0"
             VALUE "SpecialBuild", "\0"
         END
     END
@@ -656,7 +656,12 @@ BEGIN
     IDS_WEB_HOTPEPPER       "http://www.hotpepper.jp/"
     IDS_WEB_JALAN           "http://jws.jalan.net/"
     IDS_TXT_CONTINUE_PROCEEDING "実行中……"
-    IDS_VERSION             "BloGolEe Version 1.22 β"
+    IDS_VERSION             "BloGolEe Version 1.23 β"
+    IDS_AMAZON_P001         "=%jRA.67AK38$^8ptuH0E31zczXJo_RW.3TS2D^#?8vKEIF,!?h_<2Y}+J:>7JAOUNVI13"
+    IDS_AMAZON_P002         "w3L"
+    IDS_RAKUTEN_D001        "310s>L(2x$l3LB""aYzd0?+31,[Oq=_+ghD{B@HCewXdPH4{=mb&s]_lH4R?]cJr4H;CCU8"
+    IDS_RAKUTEN_D002        "<^<*G2CC@h`jk-w3TDJ7\\ElYfNNR</xer4S16tFL1Wo*#D@'V,+1T_*""${6tFL}+1U,-|>"
+    IDS_RAKUTEN_D003        "P39/_X.`Y|"
 END
 
 #endif    // 日本語 resources

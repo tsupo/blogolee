@@ -9,6 +9,13 @@
  *
  * $Log: /comm/blogolee/blogolee.cpp $
  * 
+ * 2     09/05/29 7:55 tsupo
+ * 1.23版
+ * 
+ * 5     09/05/27 22:19 Tsujimura543
+ * Amazon API および 楽天 API 関係をアップデート
+ * (Amazon API の認証は未対応 → xmlRPC.dll 側の対応と同時に作業予定)
+ * 
  * 1     09/05/14 3:47 tsupo
  * (1) ビルド環境のディレクトリ構造を整理
  * (2) VSSサーバ拠点を変更
@@ -33,7 +40,7 @@
 
 #ifndef	lint
 static char	*rcs_id =
-"$Header: /comm/blogolee/blogolee.cpp 1     09/05/14 3:47 tsupo $";
+"$Header: /comm/blogolee/blogolee.cpp 2     09/05/29 7:55 tsupo $";
 #endif
 
 #ifdef _DEBUG
@@ -65,6 +72,12 @@ CBlogoleeApp::CBlogoleeApp()
     m_proxyPort     = 0;
     m_proxyUsername = _T("");
     m_proxyPassword = _T("");
+
+    m_asID          = _T("");
+    m_aaID          = _T("");
+    m_rdID          = _T("");
+    m_raID          = _T("");
+    m_raID2         = _T("");
 }
 
 /////////////////////////////////////////////////////////////////////////////

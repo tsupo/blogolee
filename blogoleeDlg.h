@@ -10,6 +10,13 @@
  *
  * $Log: /comm/blogolee/blogoleeDlg.h $
  * 
+ * 3     09/05/29 7:55 tsupo
+ * 1.23版
+ * 
+ * 21    09/05/27 22:19 Tsujimura543
+ * Amazon API および 楽天 API 関係をアップデート
+ * (Amazon API の認証は未対応 → xmlRPC.dll 側の対応と同時に作業予定)
+ * 
  * 2     09/05/27 1:47 tsupo
  * 1.22版
  * 
@@ -278,6 +285,13 @@ public:
 protected:
 	HICON m_hIcon;
     bool  m_initialized;
+
+    bool    SetSigInfo(
+                CString    &sID1, CString    &sID2,
+                const char *sig1, const char *sig2 );
+    bool    SetSigInfo(
+                CString    &sID1, CString    &sID2, CString    &sID3,
+                const char *sig1, const char *sig2, const char *sig3 );
 
 	// 生成されたメッセージ マップ関数
 	//{{AFX_MSG(CBlogoleeDlg)

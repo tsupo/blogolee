@@ -11,6 +11,17 @@
  *
  * $Log: /comm/blogolee/blogoleeDlg.cpp $
  * 
+ * 3     09/05/29 7:55 tsupo
+ * 1.23版
+ * 
+ * 46    09/05/28 18:41 Tsujimura543
+ * (1) バグ修正 (Amazon API 関連処理でメモリ破壊)
+ * (2) バッファオーバーラン対策を強化
+ * 
+ * 45    09/05/27 22:19 Tsujimura543
+ * Amazon API および 楽天 API 関係をアップデート
+ * (Amazon API の認証は未対応 → xmlRPC.dll 側の対応と同時に作業予定)
+ * 
  * 2     09/05/27 1:47 tsupo
  * 1.22版
  * 
@@ -193,7 +204,7 @@
 
 #ifndef	lint
 static char	*rcs_id =
-"$Header: /comm/blogolee/blogoleeDlg.cpp 2     09/05/27 1:47 tsupo $";
+"$Header: /comm/blogolee/blogoleeDlg.cpp 3     09/05/29 7:55 tsupo $";
 #endif
 
 #ifdef _DEBUG
@@ -3277,6 +3288,47 @@ bool    CBlogoleeDlg::IsInner( int id, WORD wX, WORD wY )
     return ( ret );
 }
 
+bool
+CBlogoleeDlg::SetSigInfo(
+        CString    &sID1, CString    &sID2,
+        const char *sig1, const char *sig2
+    )
+{
+    char    id1[BUFSIZ];
+    char    id2[BUFSIZ];
+    BOOL    ret;
+
+    ret = setSigInfo( id1, id2, sig1, sig2, "-op", "ee-" );
+    if ( ret ) {
+        sID1 = id1;
+        sID2 = id2;
+    }
+
+    return ( ret ? true : false );
+}
+
+bool
+CBlogoleeDlg::SetSigInfo(
+        CString    &sID1, CString    &sID2, CString    &sID3,
+        const char *sig1, const char *sig2, const char *sig3
+    )
+{
+    char    id1[BUFSIZ];
+    char    id2[BUFSIZ];
+    char    id3[BUFSIZ];
+    BOOL    ret = FALSE;
+
+    ret = setSigInfo3( id1, id2, id3, sig1, sig2, sig3,
+                       "-ts", "ee-", "-op", "en-" );
+    if ( ret ) {
+        sID1 = id1;
+        sID2 = id2;
+        sID3 = id3;
+    }
+
+    return ( ret ? true : false );
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // CBlogoleeDlg メッセージ ハンドラ
 
@@ -3634,55 +3686,61 @@ void CBlogoleeDlg::OnExecutePostArticle()
     const char      *p;
 
     // 記事題名
+    param.article.title_size = m_article_title.GetLength() + 32;
     param.article.title =
-            (char *)malloc( m_article_title.GetLength() + 32 );
+            (char *)malloc( param.article.title_size );
     if ( !param.article.title )
         goto exit;
     strcpy( param.article.title, (const char *)m_article_title );
 
     // 記事本文
-    param.article.body =
-            (char *)malloc( m_article_description.GetLength() + 32 +
-                                m_keyword
+    param.article.body_size = m_article_description.GetLength() + 32 +
+                                (m_keyword
                                     ? m_article_description.GetLength() * 64
-                                    : 0                                      +
-                                m_similarity ? MAX_CONTENT_SIZE : 0 );
+                                    : 0                                     ) +
+                                (m_similarity
+                                    ? MAX_CONTENT_SIZE
+                                    : 0               );
+    param.article.body = (char *)malloc( param.article.body_size );
     if ( !param.article.body )
         goto exit;
     strcpy( param.article.body, (const char *)m_article_description );
 
     // 記事概要
+    param.article.summary_size = 0;
+    param.article.summary = NULL;
     p = (const char *)m_article_summary;
     if ( p && *p ) {
-        param.article.summary = (char *)malloc( strlen(p) + 32 );
+        param.article.summary_size = strlen(p) + 32;
+        param.article.summary = (char *)malloc( param.article.summary_size );
         if ( !param.article.summary )
             goto exit;
         strcpy( param.article.summary,  p );
     }
-    else
-        param.article.summary = NULL;
  
     // 追記
+    param.article.extended_size = 0;
+    param.article.extended = NULL;
     p = (const char *)m_article_extended;
     if ( p && *p ) {
-        param.article.extended = (char *)malloc( strlen(p) + 32 );
+        param.article.extended_size = strlen(p) + 32;
+        param.article.extended = (char *)malloc(param.article.extended_size);
         if ( !param.article.extended )
             goto exit;
         strcpy( param.article.extended,  p );
     }
-    else
-        param.article.extended = NULL;
 
     // キーワード
+    param.article.keyword_size = 0;
+    param.article.keyword = NULL;
     p = (const char *)m_article_keyword;
     if ( p && *p ) {
-        param.article.keyword = (char *)malloc( strlen(p) + 32 );
+        param.article.keyword_size = strlen(p) + 32;
+        param.article.keyword = (char *)malloc( param.article.keyword_size );
         if ( !param.article.keyword )
             goto exit;
         strcpy( param.article.keyword,  p );
     }
-    else
-        param.article.keyword = NULL;
 
     // 投稿先 blog 情報
     /* blog login 名 */
@@ -3731,13 +3789,27 @@ void CBlogoleeDlg::OnExecutePostArticle()
     if ( m_associateID.GetLength() > 0 )
         strcpy( param.postInfo.amazonAssociateID,
                 (const char*)m_associateID );
+    else if ( cp->m_aaID.GetLength() > 0 )
+        strcpy( param.postInfo.amazonAssociateID,
+                (const char*)cp->m_aaID );
     else
         param.postInfo.amazonAssociateID[0] = NUL;
 
+    if ( cp->m_asID.GetLength() > 0 )
+        strcpy( param.postInfo.amazonSubscriptionID,
+                (const char*)cp->m_asID );
+    else
+        param.postInfo.amazonSubscriptionID[0] = NUL;
+
     /* 楽天アフィリエイトID */
-    if ( m_rakuten_affiliateID.GetLength() > 0 )
+    param.postInfo.rakutenDeveloperID[0] = NUL;
+    if ( m_rakuten_affiliateID.GetLength() > 0 ) {
         strcpy( param.postInfo.rakutenAffiliateID,
                 (const char*)m_rakuten_affiliateID );
+        if ( cp->m_rdID.GetLength() > 0 )
+            strcpy( param.postInfo.rakutenDeveloperID,
+                    (const char*)cp->m_rdID );
+    }
     else
         param.postInfo.rakutenAffiliateID[0] = NUL;
 
@@ -3885,6 +3957,19 @@ void CBlogoleeDlg::OnShowWindow(BOOL bShow, UINT nStatus)
             }
         }
         setUseProxy( cp->m_useProxy );
+
+        CString sigHead = _T("");
+        CString sigMidl = _T("");
+        CString sigTail = _T("");
+        sigHead.LoadString( IDS_AMAZON_P001 );
+        sigTail.LoadString( IDS_AMAZON_P002 );
+        SetSigInfo( cp->m_asID, cp->m_aaID, sigHead, sigTail );
+
+        sigHead.LoadString( IDS_RAKUTEN_D001 );
+        sigMidl.LoadString( IDS_RAKUTEN_D002 );
+        sigTail.LoadString( IDS_RAKUTEN_D003 );
+        SetSigInfo( cp->m_rdID, cp->m_raID, cp->m_raID2,
+                    sigHead, sigMidl, sigTail );
 
         if ( m_numOfFoodCodes == 0 ) {
             m_numOfFoodCodes = getFoodCodeInfo();

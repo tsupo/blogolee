@@ -10,6 +10,16 @@
  * History:
  * $Log: /comm/blogolee/blogs/tumblr.c $
  * 
+ * 3     09/05/29 7:55 tsupo
+ * 1.23版
+ * 
+ * 4     09/05/28 20:12 Tsujimura543
+ * getBlogIDsTumblr() を修正。public group の場合は、URL を元にした ID を
+ * 採用するようにした (投稿用API の group 引数で指定する文字列相当)
+ * 
+ * 3     09/05/28 18:41 Tsujimura543
+ * format=html を指定して投稿するようにした
+ * 
  * 2     09/05/27 1:47 tsupo
  * 1.22版
  * 
@@ -83,14 +93,6 @@ postArticleOnTumblr( const char *userName,  /* ユーザ名 (メールアドレス) */
     if ( p )
         strcpy( description, p );
 
-    /* ≪ が &Lt; に化けたり、≫ が &Gt; に化けたりする件の対策 */
-    if ( strstr( description, "\342\211\253" ) )    // &raquo;
-        replaceString( description, "\342\211\253", "\302\273" );
-    if ( strstr( description, "\342\211\252" ) )    // &laquo;
-        replaceString( description, "\342\211\252", "\302\253" );
-    if ( strstr( description + 3, "<" ) )           // &lt;
-        replaceString( description + 3, "<", "&lt;" );
-
     // group
     p = strstr( group, "http://" );
     if ( p ) {
@@ -114,6 +116,7 @@ postArticleOnTumblr( const char *userName,  /* ユーザ名 (メールアドレス) */
              "body=%s&",
              encodeURL( description ) );
     sprintf( request + strlen(request),
+             "format=html&"
              "group=%s&"
              "generator=BloGolEe",
              encodeURL( group ) );
@@ -203,6 +206,14 @@ getBlogIDsTumblr(
                     strncpy( url, p, q - p );
                     url[q - p] = NUL;
                     strcpy( blogInfo[numOfBlogs].url, url );
+
+                    s = strstr( url, "http://" );
+                    if ( s ) {
+                        strcpy( blogInfo[numOfBlogs].blogID, s + 7 );
+                        s = blogInfo[numOfBlogs].blogID;
+                        if ( s[strlen(s) - 1] == '/' )
+                            s[strlen(s) - 1] = NUL;
+                    }
 
                     p = q + 1;
                 }

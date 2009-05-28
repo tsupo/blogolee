@@ -11,6 +11,20 @@
  * History:
  * $Log: /comm/blogolee/postArticle.c $
  * 
+ * 3     09/05/29 7:55 tsupo
+ * 1.23版
+ * 
+ * 30    09/05/28 18:41 Tsujimura543
+ * (1) バグ修正 (Amazon API 関連処理でメモリ破壊)
+ * (2) バッファオーバーラン対策を強化
+ * 
+ * 29    09/05/27 22:19 Tsujimura543
+ * Amazon API および 楽天 API 関係をアップデート
+ * (Amazon API の認証は未対応 → xmlRPC.dll 側の対応と同時に作業予定)
+ * 
+ * 28    09/05/27 19:42 Tsujimura543
+ * getKeyword() を修正
+ * 
  * 2     09/05/27 1:47 tsupo
  * 1.22版
  * 
@@ -725,10 +739,11 @@
 #include "encryptRSA.h"
 #include "postArticle.h"
 #include "utility.h"
+#include <assert.h>
 
 #ifndef	lint
 static char	*rcs_id =
-"$Header: /comm/blogolee/postArticle.c 2     09/05/27 1:47 tsupo $";
+"$Header: /comm/blogolee/postArticle.c 3     09/05/29 7:55 tsupo $";
 #endif
 
 extern BLOG_INFO    blog_info_tbl[];
@@ -801,6 +816,23 @@ getKeyword( const char *body, char *keyword )
             }
         }
         else {
+            if ( yokomoji >= 4 ) {
+                found = 1;
+                strncpy( keyword,
+                         p - (yokomoji * 2),
+                         yokomoji * 2 );
+                keyword[yokomoji * 2] = NUL;
+                break;
+            }
+            if ( idiom >= 3 ) {
+                found = 1;
+                strncpy( keyword,
+                         p - (idiom * 2),
+                         idiom * 2 );
+                keyword[idiom * 2] = NUL;
+                break;
+            }
+
             kanji    = 0;
             yokomoji = 0;
             idiom    = 0;
@@ -816,7 +848,7 @@ getKeyword( const char *body, char *keyword )
 
 
 #define MAX_TITLE_LEN   512
-#define MAX_BODY_LEN    (MAX_CONTENT_SIZE * 2)
+#define MAX_BODY_LEN    (MAX_CONTENT_SIZE * 16)
 #define MAX_POSTID_LEN  MAX_POSTIDLENGTH
 #define MAX_HAIKU_LEN   1024
 #define MAX_PROMPT_LEN  80
@@ -898,7 +930,7 @@ char    *
 similaritySearch(
         const char *body,   /* (I) 記事本文                              */
         int        mode,    /* (I) 埋め込みモード [1: 画像, 2: テキスト] */
-        int        numOfRecomended  /* (I) おすすめ商品掲載件数 */
+        int        numOfRecomended  /* (I) おすすめ商品掲載件数          */
     )
 {
     int         numOfAmazon   = numOfRecomended;
@@ -946,7 +978,7 @@ similaritySearch(
 
         if ( numOfAmazon == 0 ) {
             /* ヒット数0なら、改めて「和書」で検索 */
-            numOfAmazon = 10;
+            numOfAmazon = numOfRecomended;
             searchMode  = AMAZON_MODE_JBOOKS;
 #ifdef  USE_AWS30
             ret = searchItemsOnAmazon( AMAZON_TYPE_LITE,
@@ -962,7 +994,7 @@ similaritySearch(
         }
         if ( numOfAmazon == 0 ) {
             /* ヒット数0なら、今度は「すべての商品」で検索 */
-            numOfAmazon = 10;
+            numOfAmazon = numOfRecomended;
             searchMode  = AMAZON_MODE_BLENDED;
 #ifdef  USE_AWS30
             ret = searchItemsOnAmazon( AMAZON_TYPE_LITE,
@@ -978,7 +1010,7 @@ similaritySearch(
         }
         if ( numOfAmazon == 0 ) {
             /* ヒット数0なら、最後は「和書-こども向け」のベストセラーを取得 */
-            numOfAmazon = 10;
+            numOfAmazon = numOfRecomended;
             searchMode  = AMAZON_MODE_JBOOKS;
             searchTitle = "こども向け書籍ベストセラー";
 #ifdef  USE_AWS30
@@ -1213,14 +1245,15 @@ similaritySearch(
  */
 BOOL
 _makeEntry(
-        int  useHatenaLink,
-        int  useSimilarity,
-        int  numOfRecomended,
-        char *body
+        int    useHatenaLink,
+        int    useSimilarity,
+        int    numOfRecomended,
+        char   *body,
+        size_t body_size
     )
 {
     BOOL    ret  = FALSE;
-    char    *sim = NULL, *p;
+    char    *sim = NULL, *pp;
 
     if ( useSimilarity )
         sim = similaritySearch( body, useSimilarity, numOfRecomended );
@@ -1253,15 +1286,36 @@ _makeEntry(
                                     "「はてなキーワードリンク」でエラー",
                                     MB_OK|MB_ICONWARNING );
                 }
-                else
-                    strcpy( body, utf2sjis( p ) );
+                else {
+                    char    *q = utf2sjis( p );
+                    if ( q ) {
+                        size_t  l = strlen( q );
+                        if ( l > body_size ) {
+                            strncpy( body, q, body_size - 1 );
+                            body[body_size - 1] = NUL;
+                        }
+                        else
+                            strcpy( body, q );
+                    }
+                }
             }
             else {
                 /* はてなダイアリーキーワード自動リンクAPIが */
                 /* 機能していない場合                        */
+                char    *q;
+
                 memset( result, 0x00, MAX_BODY_LEN );
                 p = changeHatenaKeyword( body, result, MODE_HTML );
-                strcpy( body, euc2sjis( p ) );
+                q = euc2sjis( p );
+                if ( q ) {
+                    size_t  l = strlen( q );
+                    if ( l > body_size ) {
+                        strncpy( body, q, body_size - 1 );
+                        body[body_size - 1] = NUL;
+                    }
+                    else
+                        strcpy( body, q );
+                }
             }
 #ifdef  _DEBUG
             if ( isatty( fileno( stderr ) ) )
@@ -1272,17 +1326,19 @@ _makeEntry(
     }
 
     if ( sim ) {
-        strcat( body, sim );
+        if ( strlen( body ) + strlen( sim ) < body_size )
+            strcat( body, sim );
         free( sim );
     }
 
-    p = strrchr( body, '<' );
-    if ( p && !strncmp( p, "</p>", 4 ) ) {
-        strcpy( p,
+    pp = strrchr( body, '<' );
+    if ( pp && !strncmp( pp, "</p>", 4 ) ) {
+        strcpy( pp,
           "<br />--- powered by <a href=\""
           "http://watcher.moe-nifty.com/memo/2007/03/blogolee.html"
           "\">BloGolEe</a> ---</p>\n" );
     }
+    assert( strlen( body ) < body_size );
 
     ret = TRUE;
 
@@ -1631,13 +1687,17 @@ postArticle(
     if ( postInfo->useSimilarity ) {
         if ( postInfo->amazonAssociateID[0] )
             setAssociateIdOnAmazon( postInfo->amazonAssociateID );
+        if ( postInfo->amazonSubscriptionID[0] )
+            setSubscriptionIDOnAmazon( postInfo->amazonSubscriptionID );
         if ( postInfo->rakutenAffiliateID[0] )
             setAffiliateIdOnRakuten2( postInfo->rakutenAffiliateID );
+        if ( postInfo->rakutenDeveloperID[0] )
+            setDeveloperIdOnRakuten( postInfo->rakutenDeveloperID );
     }
 
     _makeEntry( postInfo->useHatenaLink, postInfo->useSimilarity,
                 postInfo->numOfRecomended,
-                article->body );
+                article->body, article->body_size );
 
     if ( postInfo->blogUserName[0] && postInfo->blogPassword[0] &&
          (postInfo->blogType != newPostOnly) &&
