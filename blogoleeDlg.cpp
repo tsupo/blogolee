@@ -4,12 +4,18 @@
  *
  *          written by H.Tsujimura  15 Oct 2004 / 2 Mar 2007
  *
- *      Copyright (c) 2004, 2005, 2006, 2007, 2008 by H.Tsujimura (tsupo@na.rim.or.jp)
+ *      Copyright (c) 2004, 2005, 2006, 2007, 2008, 2009 by H.Tsujimura (tsupo@na.rim.or.jp)
  *      All Rights Reserved.
  *
  *      (「ここうさぎウィザード」のソース carotDlg.cpp を流用、改造)
  *
  * $Log: /comm/blogolee/blogoleeDlg.cpp $
+ * 
+ * 4     09/06/02 4:11 tsupo
+ * 1.24版
+ * 
+ * 47    09/06/01 21:40 Tsujimura543
+ * Amazon Product Advertising API 対応 (動作確認済み)
  * 
  * 3     09/05/29 7:55 tsupo
  * 1.23版
@@ -198,13 +204,14 @@
 #include "HotelDialog.h"
 #include "hotelInfo.h"
 #include "BlogoleeMini.h"
+#include "EditAmazonAccessKey.h"
 #include "utility.h"
 #include <sys/stat.h>
 #include <direct.h>
 
 #ifndef	lint
 static char	*rcs_id =
-"$Header: /comm/blogolee/blogoleeDlg.cpp 3     09/05/29 7:55 tsupo $";
+"$Header: /comm/blogolee/blogoleeDlg.cpp 4     09/06/02 4:11 tsupo $";
 #endif
 
 #ifdef _DEBUG
@@ -265,6 +272,9 @@ CBlogoleeDlg::CBlogoleeDlg(CWnd* pParent /*=NULL*/)
     m_areaCode[0]     = NUL;
     m_numOfRecomended = DEFAULT_RECOMENDED_ITEMS;
     m_initialized     = false;
+
+    m_amazonAccessKeyID     = _T("");
+    m_amazonAccessKeySecret = _T("");
 
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
     m_hCursor = AfxGetApp()->LoadCursor( IDC_HAND );
@@ -362,6 +372,7 @@ BEGIN_MESSAGE_MAP(CBlogoleeDlg, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_SMALL, OnButtonSmall)
 	ON_WM_CONTEXTMENU()
 	ON_BN_CLICKED(IDC_BUTTON_PROXY, OnButtonProxy)
+	ON_BN_CLICKED(IDC_EDIT_AMAZON_ACCESS_KEY, OnEditAmazonAccessKey)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -1063,16 +1074,18 @@ void    CBlogoleeDlg::loadSetting()
 {
     struct stat s;
 
-    m_blogUserName        = "";
-    m_blogPassword        = "";
-    m_blogName            = "";
-    m_endpointURL         = "";
-    m_blogID              = "";
-    m_blogURL             = "";
-    m_associateID         = "";
-    m_rakuten_affiliateID = "";
-    m_categoryName        = "";
-    m_editorPath[0]       = NUL;
+    m_blogUserName          = "";
+    m_blogPassword          = "";
+    m_blogName              = "";
+    m_endpointURL           = "";
+    m_blogID                = "";
+    m_blogURL               = "";
+    m_associateID           = "";
+    m_amazonAccessKeyID     = "";
+    m_amazonAccessKeySecret = "";
+    m_rakuten_affiliateID   = "";
+    m_categoryName          = "";
+    m_editorPath[0]         = NUL;
 
     if ( !stat( m_settingDir, &s ) &&
          ((s.st_mode & _S_IFDIR ) == _S_IFDIR) ) {
@@ -1135,24 +1148,30 @@ void    CBlogoleeDlg::loadSetting( FILE *fp )
     bool            useCbox   = false;
     bool            encrypted = false;
     char            blogPasswordEncrypted[MAX_PASSWDLEN * 16];
+    char            accessKeyIDEncrypted[MAX_KEYLENGTH * 16];
+    char            accessKeySecretEncrypted[MAX_KEYLENGTH * 16];
     char            key[BUFSIZ];
     char            temp[BUFSIZ];
     CBlogoleeApp    *bp = (CBlogoleeApp *)AfxGetApp();
 
-    m_blogUserName        = "";
-    m_blogPassword        = "";
-    m_blogName            = "";
-    m_endpointURL         = "";
-    m_blogID              = "";
-    m_blogURL             = "";
-    m_associateID         = "";
-    m_rakuten_affiliateID = "";
-    m_sid                 = "";
-    m_pidForJalan         = "";
-    m_categoryName        = "";
-    m_editorPath[0]       = NUL;
-    blogPasswordEncrypted[0] = NUL;
-    key[0]                   = NUL;
+    m_blogUserName              = "";
+    m_blogPassword              = "";
+    m_blogName                  = "";
+    m_endpointURL               = "";
+    m_blogID                    = "";
+    m_blogURL                   = "";
+    m_associateID               = "";
+    m_amazonAccessKeyID         = "";
+    m_amazonAccessKeySecret     = "";
+    m_rakuten_affiliateID       = "";
+    m_sid                       = "";
+    m_pidForJalan               = "";
+    m_categoryName              = "";
+    m_editorPath[0]             = NUL;
+    blogPasswordEncrypted[0]    = NUL;
+    accessKeyIDEncrypted[0]     = NUL;
+    accessKeySecretEncrypted[0] = NUL;
+    key[0]                      = NUL;
 
     while ( ( p = fgets( buf, BUFSIZ - 1, fp ) ) != NULL ) {
         if ( !strncmp(p, BLOGOLEE_INF_EOF_STRING,
@@ -1216,6 +1235,18 @@ void    CBlogoleeDlg::loadSetting( FILE *fp )
                              IDC_EDIT_ASSOCIATE_ID,
                              MAX_NAMELEN ) )
             continue;   // Amazon アソシエイト ID
+
+        if ( getStringValue( p, "amazonAccessKeyIDEncrypted:",
+                             accessKeyIDEncrypted ) ) {
+            encrypted = true;
+            continue;   // Amazon Access Key ID
+        }
+
+        if ( getStringValue( p, "amazonAccessKeySecretEncrypted:",
+                             accessKeySecretEncrypted ) ) {
+            encrypted = true;
+            continue;   // Amazon Secret Access Key
+        }
 
         if ( getStringValue( p, "affiliateID",
                              m_rakuten_affiliateID,
@@ -1317,6 +1348,14 @@ void    CBlogoleeDlg::loadSetting( FILE *fp )
             if ( blogPasswordEncrypted[0] )
                 decodeParameter( m_blogPassword,
                                  (unsigned char *)blogPasswordEncrypted,
+                                 (unsigned char *)rsaString );
+            if ( accessKeyIDEncrypted[0] )
+                decodeParameter( m_amazonAccessKeyID,
+                                 (unsigned char *)accessKeyIDEncrypted,
+                                 (unsigned char *)rsaString );
+            if ( accessKeySecretEncrypted[0] )
+                decodeParameter( m_amazonAccessKeySecret,
+                                 (unsigned char *)accessKeySecretEncrypted,
                                  (unsigned char *)rsaString );
         }
     }
@@ -1478,6 +1517,17 @@ void    CBlogoleeDlg::saveSetting( FILE *fp, bool savedForcely )
         if ( m_associateID.GetLength() > 0 )
             fprintf( fp, "associateID:     %s\n",
                      (const char *)m_associateID );
+
+        if ( m_amazonAccessKeyID.GetLength() > 0 )
+            encodeParameter( fp, gp,
+                             (const char *)m_amazonAccessKeyID,
+                             "amazonAccessKeyID",
+                             key, &rsaString, encrypted );
+        if ( m_amazonAccessKeySecret.GetLength() > 0 )
+            encodeParameter( fp, gp,
+                             (const char *)m_amazonAccessKeySecret,
+                             "amazonAccessKeySecret",
+                             key, &rsaString, encrypted );
 
         if ( m_rakuten_affiliateID.GetLength() > 0 )
             fprintf( fp, "affiliateID:     %s\n",
@@ -2189,6 +2239,8 @@ CBlogoleeDlg::checkEncodedPassword( const char *filename )
     int     numOfPasswords = 0;
     int     num = 0;
     char    **passwordEncrypted = NULL;
+    char    accessKeyIDEncrypted[MAX_KEYLENGTH * 16];
+    char    accessKeySecretEncrypted[MAX_KEYLENGTH * 16];
     CString password;
     char    key[BUFSIZ];
     char    buf[BUFSIZ];
@@ -2196,6 +2248,8 @@ CBlogoleeDlg::checkEncodedPassword( const char *filename )
     FILE    *fp;
 
     key[0] = NUL;
+    accessKeyIDEncrypted[0]     = NUL;
+    accessKeySecretEncrypted[0] = NUL;
 
     if ( ( fp = fopen( filename, "r" ) ) != NULL ) {
         while ( ( p = fgets( buf, BUFSIZ - 1, fp ) ) != NULL ) {
@@ -2223,7 +2277,19 @@ CBlogoleeDlg::checkEncodedPassword( const char *filename )
         if ( numOfPasswords > 0 ) {
             rewind( fp );
             while ( ( p = fgets( buf, BUFSIZ - 1, fp ) ) != NULL ) {
-                if ( strstr( p, "Encrypted: " ) != NULL ) {
+                if ( !strncmp( p, "amazonAccessKeyIDEncrypted:", 27 ) ) {
+                    q = strchr( p, ':' ) + 1;
+                    while ( (*q == ' ') || (*q == '\t') )
+                        q++;
+                    strcpy( accessKeyIDEncrypted, q );
+                }
+                else if ( !strncmp( p, "amazonAccessKeySecretEncrypted:", 31 ) ) {
+                    q = strchr( p, ':' ) + 1;
+                    while ( (*q == ' ') || (*q == '\t') )
+                        q++;
+                    strcpy( accessKeySecretEncrypted, q );
+                }
+                else if ( strstr( p, "Encrypted: " ) != NULL ) {
                     if ( num < numOfPasswords ) {
                         q = strchr( p, ':' ) + 1;
                         while ( (*q == ' ') || (*q == '\t') )
@@ -2254,6 +2320,23 @@ CBlogoleeDlg::checkEncodedPassword( const char *filename )
                     password = "";
                     decodeParameter( password,
                                      (unsigned char *)passwordEncrypted[i],
+                                     (unsigned char *)rsaString );
+                    if ( password.GetLength() == 0 )
+                        ret = false;
+                }
+
+                if ( accessKeyIDEncrypted[0] ) {
+                    password = "";
+                    decodeParameter( password,
+                                     (unsigned char *)accessKeyIDEncrypted,
+                                     (unsigned char *)rsaString );
+                    if ( password.GetLength() == 0 )
+                        ret = false;
+                }
+                if ( accessKeySecretEncrypted[0] ) {
+                    password = "";
+                    decodeParameter( password,
+                                     (unsigned char *)accessKeySecretEncrypted,
                                      (unsigned char *)rsaString );
                     if ( password.GetLength() == 0 )
                         ret = false;
@@ -3795,11 +3878,26 @@ void CBlogoleeDlg::OnExecutePostArticle()
     else
         param.postInfo.amazonAssociateID[0] = NUL;
 
+    /* Amazon Subscription ID
+                    (Product Advertising API 登場以前の Access Key ID) */
     if ( cp->m_asID.GetLength() > 0 )
         strcpy( param.postInfo.amazonSubscriptionID,
                 (const char*)cp->m_asID );
     else
         param.postInfo.amazonSubscriptionID[0] = NUL;
+
+    /* Amazon Product Advertising API */
+    if ( (m_amazonAccessKeyID.GetLength()     > 0) &&
+         (m_amazonAccessKeySecret.GetLength() > 0)    ) {
+        strcpy( param.postInfo.amazonAccessKeyID,
+                (const char*)m_amazonAccessKeyID );     // 現 Access Key ID
+        strcpy( param.postInfo.amazonAccessKeySecret,
+                (const char*)m_amazonAccessKeySecret ); // 署名用の鍵 (新設)
+    }
+    else {
+        param.postInfo.amazonAccessKeyID[0]     = NUL;
+        param.postInfo.amazonAccessKeySecret[0] = NUL;
+    }
 
     /* 楽天アフィリエイトID */
     param.postInfo.rakutenDeveloperID[0] = NUL;
@@ -5011,4 +5109,18 @@ void CBlogoleeDlg::OnButtonProxy()
     setConfirmProxyInfoFunc( NULL );
     syncProxyInfo();
     saveSetting();
+}
+
+void CBlogoleeDlg::OnEditAmazonAccessKey() 
+{
+    EditAmazonAccessKey dlg;
+    
+    dlg.m_accessKeyID     = m_amazonAccessKeyID;
+    dlg.m_accessKeySecret = m_amazonAccessKeySecret;
+
+    int r = dlg.DoModal();
+    if ( r == IDOK ) {
+        m_amazonAccessKeyID     = dlg.m_accessKeyID;
+        m_amazonAccessKeySecret = dlg.m_accessKeySecret;
+    }
 }

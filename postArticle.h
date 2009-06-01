@@ -5,11 +5,17 @@
  *
  *      written by H.Tsujimura      2 Jul 2004 / 2 Mar 2007
  *
- *      Copyright (c) 2004, 2005, 2006, 2007 by H.Tsujimura (tsupo@na.rim.or.jp)
+ *      Copyright (c) 2004, 2005, 2006, 2007, 2008, 2009 by H.Tsujimura (tsupo@na.rim.or.jp)
  *      All Rights Reserved.
  *
  * History:
  * $Log: /comm/blogolee/postArticle.h $
+ * 
+ * 4     09/06/02 4:11 tsupo
+ * 1.24版
+ * 
+ * 24    09/06/01 19:37 Tsujimura543
+ * amazonAccessKeyID, amazonAccessKeySecret 対応
  * 
  * 3     09/05/29 7:55 tsupo
  * 1.23版
@@ -416,6 +422,7 @@ typedef struct blog_info    {
  *  投稿時の各種パラメータ
  */
 typedef struct postArticleInfo  {
+#define MAX_KLEN    MAX_KEYLENGTH
     char      blogUserName[MAX_USERIDLEN + 1];     /* blog login 名         */
     char      blogPassword[MAX_PASSWDLEN + 1];     /* blog パスワード       */
     char      blogID[MAX_BLOGIDLENGTH + 1];        /* blogID                */
@@ -428,8 +435,10 @@ typedef struct postArticleInfo  {
     int       useSimilarity;                        /* おすすめを使うか否か */
     char      amazonAssociateID[MAX_NAMELEN + 1];   /* AmazonアソシエイトID */
     char      amazonSubscriptionID[MAX_NAMELEN + 1];/* Amazon開発者ID       */
-    char      rakutenAffiliateID[MAX_KEYLENGTH + 1];/* 楽天アフィリエイトID */
-    char      rakutenDeveloperID[MAX_KEYLENGTH + 1];/* 楽天ディベロッパーID */
+    char      amazonAccessKeyID[MAX_KLEN + 1];      /* AWS Access Key ID    */
+    char      amazonAccessKeySecret[MAX_KLEN + 1];  /* AWS Secret Access Key*/
+    char      rakutenAffiliateID[MAX_KLEN + 1];     /* 楽天アフィリエイトID */
+    char      rakutenDeveloperID[MAX_KLEN + 1];     /* 楽天ディベロッパーID */
     int       numOfRecomended;                      /* おすすめ掲載件数     */
     char      categoryName[MAX_CATIDLENGTH + 1];    /* 投稿対象のカテゴリ名 */
     char      templateID[MAX_CATIDLENGTH + 1];      /* テンプレートID       */

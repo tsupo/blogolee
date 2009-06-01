@@ -95,7 +95,7 @@ STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION |
     WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
 CAPTION "BloGolEe"
-FONT 9, "ＭＳ Ｐゴシック"
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x1
 BEGIN
     GROUPBOX        "記事",IDC_STATIC,7,7,389,254
     LTEXT           "題名",IDC_STATIC,15,21,15,8
@@ -116,7 +116,7 @@ BEGIN
                     WS_GROUP,302,32,27,10
     CONTROL         "使わない",IDC_RADIO_KEYWORD_OFF,"Button",
                     BS_AUTORADIOBUTTON | WS_GROUP,338,32,42,10
-    GROUPBOX        "おすすめ",IDC_STATIC_RECOMENDED,289,49,98,79,BS_NOTIFY | 
+    GROUPBOX        "おすすめ",IDC_STATIC_RECOMENDED,289,49,98,96,BS_NOTIFY | 
                     WS_GROUP
     CONTROL         "使う",IDC_RADIO_SIMILARITY_ON,"Button",
                     BS_AUTORADIOBUTTON | WS_GROUP,302,60,27,10
@@ -128,8 +128,10 @@ BEGIN
     LTEXT           "楽天アフィリエイトID",IDC_STATIC,293,99,59,8,NOT 
                     WS_GROUP
     EDITTEXT        IDC_EDIT_RAKUTEN_ID,293,109,89,13,ES_AUTOHSCROLL
-    DEFPUSHBUTTON   "投稿",IDOK,296,137,38,25,BS_MULTILINE
-    PUSHBUTTON      "終了",IDCANCEL,342,137,38,25
+    PUSHBUTTON      "Amazon Access Key 設定",IDC_EDIT_AMAZON_ACCESS_KEY,301,
+                    128,81,14
+    DEFPUSHBUTTON   "投稿",IDOK,291,148,46,20,BS_MULTILINE
+    PUSHBUTTON      "終了",IDCANCEL,339,148,46,20
     GROUPBOX        "ホットペッパー グルメサーチ",IDC_STATIC,12,166,378,35
     COMBOBOX        IDC_COMBO_FOODCD,20,180,102,114,CBS_DROPDOWN | 
                     WS_VSCROLL | WS_TABSTOP
@@ -155,6 +157,11 @@ BEGIN
     LTEXT           "PID",IDC_STATIC,326,239,11,8
     EDITTEXT        IDC_EDIT_JALAN_PID,340,237,44,13,ES_AUTOHSCROLL
     GROUPBOX        "blog 情報",IDC_STATIC,7,267,389,173
+    LTEXT           "blog の種類",IDC_STATIC,15,277,36,8
+    COMBOBOX        IDC_COMBO_BLOGKIND,15,287,116,106,CBS_DROPDOWN | 
+                    CBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "blog 切替",IDC_BUTTON_SWITCH_BLOG,141,284,40,17
+    PUSHBUTTON      "blog を見る",IDC_BUTTON_BROWSE_BLOG,188,284,52,17
     LTEXT           "blog 名",IDC_STATIC,15,303,22,8
     EDITTEXT        IDC_EDIT_BLOG_NAME,15,313,242,13,ES_AUTOHSCROLL
     LTEXT           "blog URL",IDC_STATIC,15,329,28,8
@@ -170,21 +177,16 @@ BEGIN
     EDITTEXT        IDC_EDIT_BLOG_ID,141,399,116,13,ES_AUTOHSCROLL
     LTEXT           "エンドポイントURL",IDC_STATIC,15,411,52,8
     EDITTEXT        IDC_EDIT_ENDPOINT_URL,15,421,242,13,ES_AUTOHSCROLL
-    LTEXT           "blog の種類",IDC_STATIC,15,277,36,8
-    COMBOBOX        IDC_COMBO_BLOGKIND,15,287,116,106,CBS_DROPDOWN | 
-                    CBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "blog 切替",IDC_BUTTON_SWITCH_BLOG,141,284,40,17
-    PUSHBUTTON      "blog を見る",IDC_BUTTON_BROWSE_BLOG,188,284,52,17
-    PUSHBUTTON      "小",IDC_BUTTON_SMALL,59,447,13,13
-    PUSHBUTTON      "proxy設定",IDC_BUTTON_PROXY,14,447,40,13
-    LTEXT           "BloGolEe  Ver 1.12 β",IDC_VERSION,237,451,78,8
-    LTEXT           "Presented by tsupo",IDC_STATIC,330,451,58,8
     LTEXT           "投稿する記事のカテゴリ",IDC_STATIC,269,279,71,8
     LISTBOX         IDC_LIST_CATEGORY,269,289,119,125,LBS_NOINTEGRALHEIGHT | 
                     LBS_WANTKEYBOARDINPUT | LBS_DISABLENOSCROLL | WS_VSCROLL | 
                     WS_TABSTOP
     PUSHBUTTON      "カテゴリ一覧取得",IDC_BUTTON_GET_CATEGORIES,323,420,65,
                     17,WS_GROUP
+    PUSHBUTTON      "proxy設定",IDC_BUTTON_PROXY,14,447,40,13
+    PUSHBUTTON      "小",IDC_BUTTON_SMALL,59,447,13,13
+    LTEXT           "BloGolEe  Ver 1.12 β",IDC_VERSION,237,451,78,8
+    LTEXT           "Presented by tsupo",IDC_STATIC,330,451,58,8
 END
 
 IDD_ADD_BLOGINFO_DIALOG DIALOG DISCARDABLE  0, 0, 363, 169
@@ -375,6 +377,19 @@ BEGIN
     LTEXT           "Presented by tsupo",IDC_STATIC,358,200,58,8
 END
 
+IDD_EDIT_AMAZON_ACCESS_KEY DIALOG DISCARDABLE  0, 0, 187, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Amazon Access Key 設定"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    LTEXT           "Access Key ID",IDC_STATIC,7,7,44,8
+    EDITTEXT        IDC_EDIT_ACCESS_KEY_ID,19,19,154,13,ES_AUTOHSCROLL
+    LTEXT           "Secret Access Key",IDC_STATIC,7,37,57,8
+    EDITTEXT        IDC_EDIT_ACCESS_KEY_SECRET,19,49,154,13,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,77,67,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,130,67,50,14
+END
+
 
 #ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
@@ -383,8 +398,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,6,3
- PRODUCTVERSION 1,0,6,3
+ FILEVERSION 1,0,6,4
+ PRODUCTVERSION 1,0,6,4
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -402,14 +417,14 @@ BEGIN
             VALUE "Comments", "ブログやSNSに記事や日記を投稿するツール\0"
             VALUE "CompanyName", "観測気球 http://watcher.moe-nifty.com/\0"
             VALUE "FileDescription", "ブログクライアント BloGolEe\0"
-            VALUE "FileVersion", "1, 0, 6, 3\0"
+            VALUE "FileVersion", "1, 0, 6, 4\0"
             VALUE "InternalName", "blogolee\0"
             VALUE "LegalCopyright", "Copyright (C) 2007, 2008, 2009 tsupo (Hiroshi Tsujimura)\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "blogolee.EXE\0"
             VALUE "PrivateBuild", "\0"
             VALUE "ProductName", "BloGolEe\0"
-            VALUE "ProductVersion", "1, 0, 6, 3\0"
+            VALUE "ProductVersion", "1, 0, 6, 4\0"
             VALUE "SpecialBuild", "\0"
         END
     END
@@ -508,6 +523,14 @@ BEGIN
         RIGHTMARGIN, 424
         TOPMARGIN, 7
         BOTTOMMARGIN, 230
+    END
+
+    IDD_EDIT_AMAZON_ACCESS_KEY, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 80
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -656,7 +679,7 @@ BEGIN
     IDS_WEB_HOTPEPPER       "http://www.hotpepper.jp/"
     IDS_WEB_JALAN           "http://jws.jalan.net/"
     IDS_TXT_CONTINUE_PROCEEDING "実行中……"
-    IDS_VERSION             "BloGolEe Version 1.23 β"
+    IDS_VERSION             "BloGolEe Version 1.24 β"
     IDS_AMAZON_P001         "=%jRA.67AK38$^8ptuH0E31zczXJo_RW.3TS2D^#?8vKEIF,!?h_<2Y}+J:>7JAOUNVI13"
     IDS_AMAZON_P002         "w3L"
     IDS_RAKUTEN_D001        "310s>L(2x$l3LB""aYzd0?+31,[Oq=_+ghD{B@HCewXdPH4{=mb&s]_lH4R?]cJr4H;CCU8"

@@ -3,12 +3,18 @@
  *      メインダイアログ ヘッダーファイル
  *          written by H.Tsujimura  15 Oct 2004 / 2 Mar 2007
  *
- *      Copyright (c) 2004, 2005, 2006, 2007 by H.Tsujimura (tsupo@na.rim.or.jp)
+ *      Copyright (c) 2004, 2005, 2006, 2007, 2009 by H.Tsujimura (tsupo@na.rim.or.jp)
  *      All Rights Reserved.
  *
  *      (「ここうさぎウィザード」のソース carotDlg.h を流用、改造)
  *
  * $Log: /comm/blogolee/blogoleeDlg.h $
+ * 
+ * 4     09/06/02 4:11 tsupo
+ * 1.24版
+ * 
+ * 22    09/06/01 21:40 Tsujimura543
+ * Amazon Product Advertising API 対応 (動作確認済み)
  * 
  * 3     09/05/29 7:55 tsupo
  * 1.23版
@@ -227,6 +233,9 @@ private:
     bool    m_keyword;      // 「はてなダイアリーキーワード」を使うか否か
     bool    m_similarity;   // 「おすすめ」を使うか否か
 
+    CString m_amazonAccessKeyID;     // Access Key ID
+    CString m_amazonAccessKeySecret; // Secret Access Key
+
     char    m_settingDir[MAX_PATH];  // 設定ファイル格納ディレクトリ
     char    m_settingFile[MAX_PATH]; // 設定ファイル名
     char    m_blogInfoFile[MAX_PATH];// 投稿対象の blog の一覧
@@ -338,6 +347,7 @@ protected:
 	afx_msg void OnButtonSmall();
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	afx_msg void OnButtonProxy();
+	afx_msg void OnEditAmazonAccessKey();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

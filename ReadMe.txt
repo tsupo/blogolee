@@ -1,7 +1,7 @@
 ブログクライアント BloGolEe
   作者: tsupo (H.Tsujimura, mailto: tsupo@na.rim.or.jp)
-  パッケージ作成日: 2009年5月28日
-  パッケージ版数:   1.23 β
+  パッケージ作成日: 2009年6月1日
+  パッケージ版数:   1.24 β
 
   このパッケージの説明:
 
@@ -258,6 +258,11 @@
         詳細は、以下の Webページを参照してください。
             http://www.amazon.co.jp/gp/feature.html/?ie=UTF8&docId=451209
 
+        なお、2009年8月15日以降も、この機能を利用するには、「Amazon Access Key 設定」を行なう必要
+        があります。http://aws.amazon.com/ にログインし、Access Key ID と Secret Access Key を取得
+        した後、BloGoLee のメインダイアログの「Amazon Access Key 設定」ボタンを押し、Access Key ID
+        と Secret Access Key を各々設定してください。
+
     ・楽天Webサービス
         楽天市場の商品を検索するのに利用しています。ブログに投稿しようとしている記事から抽出された
         「特徴語」をキーワードとして検索を行なっています(「おすすめ機能」を「使う」設定にしている
@@ -281,6 +286,9 @@
 
 
   更新情報:
+    Ver 1.24  2009年 6月 1日  Amazon の API が Product Advertising API に移行するのに伴い、
+                              「Amazon Access Key 設定」ボタンを追加。Product Advertising API に
+                              よる Amazon へのアクセスに対応した(移行期間:2009年5月16日～8月15日)
     Ver 1.23  2009年 5月28日  (1) 「おすすめ」機能使用時、バッファオーバーランによる異常終了が発
                                   生することがある不具合を修正
                               (2) tumblr への投稿時、format=html を指定して投稿するようにした
@@ -365,4 +373,4 @@
                                  だったのを最大20件に変更
     Ver 1.00  2007年 3月 8日 最初のバージョン (「観測気球」にて公開)
 
-$Header: /comm/blogolee/ReadMe.txt 2     09/05/29 7:28 tsupo $
+$Header: /comm/blogolee/ReadMe.txt 3     09/06/02 4:11 tsupo $

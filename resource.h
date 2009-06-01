@@ -11,6 +11,7 @@
 #define IDD_BLOGID_DIALOG               130
 #define IDD_DIALOG_HOTEL_INFO           131
 #define IDD_DIALOG_PROXY_INFO           132
+#define IDD_EDIT_AMAZON_ACCESS_KEY      133
 #define IDD_BLOG_DIALOG                 136
 #define IDD_ADD_BLOGINFO_DIALOG         137
 #define IDD_PROCEEDING_DIALOG           138
@@ -92,7 +93,10 @@
 #define IDC_BUTTON_SMALL                1058
 #define IDC_STATIC_RECOMENDED           1059
 #define IDC_VERSION                     1060
+#define IDC_EDIT_AMAZON_ACCESS_KEY      1061
+#define IDC_EDIT_ACCESS_KEY_ID          1062
 #define IDC_WEB_URL                     1063
+#define IDC_EDIT_ACCESS_KEY_SECRET      1063
 #define IDC_MAIL_ADDR                   1064
 #define IDS_MAIL_ADDR                   61204
 #define IDS_WEB_URL                     61205
@@ -110,9 +114,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        133
+#define _APS_NEXT_RESOURCE_VALUE        134
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1061
+#define _APS_NEXT_CONTROL_VALUE         1063
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

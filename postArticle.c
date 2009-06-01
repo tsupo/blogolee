@@ -5,11 +5,17 @@
  *
  *      written by H.Tsujimura      2 Jul 2004 / 2 Mar 2007
  *
- *      Copyright (c) 2004, 2005, 2006, 2007, 2008 by H.Tsujimura (tsupo@na.rim.or.jp)
+ *      Copyright (c) 2004, 2005, 2006, 2007, 2008, 2009 by H.Tsujimura (tsupo@na.rim.or.jp)
  *      All Rights Reserved.
  *
  * History:
  * $Log: /comm/blogolee/postArticle.c $
+ * 
+ * 4     09/06/02 4:11 tsupo
+ * 1.24”Å
+ * 
+ * 31    09/06/01 19:37 Tsujimura543
+ * amazonAccessKeyID, amazonAccessKeySecret ‘Î‰ž
  * 
  * 3     09/05/29 7:55 tsupo
  * 1.23”Å
@@ -743,7 +749,7 @@
 
 #ifndef	lint
 static char	*rcs_id =
-"$Header: /comm/blogolee/postArticle.c 3     09/05/29 7:55 tsupo $";
+"$Header: /comm/blogolee/postArticle.c 4     09/06/02 4:11 tsupo $";
 #endif
 
 extern BLOG_INFO    blog_info_tbl[];
@@ -795,49 +801,40 @@ getKeyword( const char *body, char *keyword )
                 yokomoji = 0;
             }
             else {
-                if ( yokomoji >= 4 ) {
-                    found = 1;
-                    strncpy( keyword,
-                             p - (((yokomoji + 1) * 2) - 1),
-                             yokomoji * 2 );
-                    keyword[yokomoji * 2] = NUL;
+                if ( yokomoji >= 4 )
                     break;
-                }
-                if ( idiom >= 3 ) {
-                    found = 1;
-                    strncpy( keyword,
-                             p - (((idiom + 1) * 2) - 1),
-                             idiom * 2 );
-                    keyword[idiom * 2] = NUL;
+                if ( idiom >= 3 )
                     break;
-                }
                 yokomoji = 0;
                 idiom    = 0;
             }
         }
         else {
-            if ( yokomoji >= 4 ) {
-                found = 1;
-                strncpy( keyword,
-                         p - (yokomoji * 2),
-                         yokomoji * 2 );
-                keyword[yokomoji * 2] = NUL;
+            if ( yokomoji >= 4 )
                 break;
-            }
-            if ( idiom >= 3 ) {
-                found = 1;
-                strncpy( keyword,
-                         p - (idiom * 2),
-                         idiom * 2 );
-                keyword[idiom * 2] = NUL;
+            if ( idiom >= 3 )
                 break;
-            }
 
             kanji    = 0;
             yokomoji = 0;
             idiom    = 0;
         }
         p++;
+    }
+
+    if ( yokomoji >= 4 ) {
+        found = 1;
+        strncpy( keyword,
+                 p - (yokomoji * 2),
+                 yokomoji * 2 );
+        keyword[yokomoji * 2] = NUL;
+    }
+    if ( idiom >= 3 ) {
+        found = 1;
+        strncpy( keyword,
+                 p - (idiom * 2),
+                 idiom * 2 );
+        keyword[idiom * 2] = NUL;
     }
 
     if ( !found )
@@ -1689,6 +1686,13 @@ postArticle(
             setAssociateIdOnAmazon( postInfo->amazonAssociateID );
         if ( postInfo->amazonSubscriptionID[0] )
             setSubscriptionIDOnAmazon( postInfo->amazonSubscriptionID );
+
+        if ( postInfo->amazonAccessKeyID[0]     &&
+             postInfo->amazonAccessKeySecret[0]    ) {
+            setAccessKeyIDOnAmazon( postInfo->amazonAccessKeyID );
+            setAccessKeySecretOnAmazon( postInfo->amazonAccessKeySecret );
+        }
+
         if ( postInfo->rakutenAffiliateID[0] )
             setAffiliateIdOnRakuten2( postInfo->rakutenAffiliateID );
         if ( postInfo->rakutenDeveloperID[0] )

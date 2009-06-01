@@ -54,7 +54,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /machine:I386
-# ADD LINK32 xmlRPC.lib /nologo /version:1.23 /subsystem:windows /machine:I386 /libpath:"..\xmlRPC\Release"
+# ADD LINK32 xmlRPC.lib /nologo /version:1.24 /subsystem:windows /machine:I386 /libpath:"..\xmlRPC\Release"
 
 !ELSEIF  "$(CFG)" == "blogolee - Win32 Debug"
 
@@ -81,7 +81,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 xmlRPC.lib /nologo /version:1.23 /subsystem:windows /incremental:no /debug /machine:I386 /pdbtype:sept /libpath:"..\xmlRPC\Debug"
+# ADD LINK32 xmlRPC.lib /nologo /version:1.24 /subsystem:windows /incremental:no /debug /machine:I386 /pdbtype:sept /libpath:"..\xmlRPC\Debug"
 
 !ENDIF 
 
@@ -131,6 +131,10 @@ SOURCE=.\confirmProxy.cpp
 # Begin Source File
 
 SOURCE=.\blogs\echoo.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\EditAmazonAccessKey.cpp
 # End Source File
 # Begin Source File
 
@@ -227,6 +231,10 @@ SOURCE=.\BlogoleeMini.h
 # Begin Source File
 
 SOURCE=.\confirmProxy.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\EditAmazonAccessKey.h
 # End Source File
 # Begin Source File
 
